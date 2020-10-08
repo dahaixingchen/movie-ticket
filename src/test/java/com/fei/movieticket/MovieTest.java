@@ -3,21 +3,20 @@ package com.fei.movieticket;
 import com.fei.movieticket.entity.MovieTicketEntity;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
-import netscape.javascript.JSObject;
 import org.apache.commons.lang.StringUtils;
 import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
 import org.apache.http.ParseException;
 import org.apache.http.client.ClientProtocolException;
-import org.apache.http.client.methods.CloseableHttpResponse;
+import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpPost;
-import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * @ClassName: MovieTest
@@ -50,7 +49,7 @@ public class MovieTest {
 
         String html = null;
         // 创建httpclient对象
-        CloseableHttpClient httpclient = HttpClients.createDefault();
+        HttpClient httpclient = HttpClientBuilder.create().build();
         ArrayList<MovieTicketEntity> movieTicketEntities = new ArrayList<>();
         try {
             // 创建httpget对象
@@ -58,22 +57,22 @@ public class MovieTest {
             httpPost.setHeader("Referer", "http://shop.ajiyouhuiquan.top/");
             httpPost.setHeader("Authorization", "Basic Og==");
             httpPost.setHeader("Cookie", "visit_stat_key=KNG8CE3U37D67CGWRTCMHZM2; ASP.NET_SessionId=xxmswej4w5ar3ue5il52mp0o; visit_stat_key=KNG8CE3U37D67CGWRTCMHZM2; Cookie_1=value");
-            // 执行get请求.
-            CloseableHttpResponse response = httpclient.execute(httpPost);
+            // 执行post请求.
+            HttpResponse response = httpclient.execute(httpPost);
             try {
                 // 获取响应实体
                 HttpEntity entity = response.getEntity();
                 if (entity != null) {
                     html = EntityUtils.toString(entity);
-                    JSONArray ticketData = (JSONArray)((JSONObject) JSONObject.fromObject(html).get("Data")).get("Goods");
-                    JSONObject ticketNum = (JSONObject)((JSONObject) JSONObject.fromObject(html).get("Data")).get("StockNumsDict");
+                    JSONArray ticketData = (JSONArray) ((JSONObject) JSONObject.fromObject(html).get("Data")).get("Goods");
+                    JSONObject ticketNum = (JSONObject) ((JSONObject) JSONObject.fromObject(html).get("Data")).get("StockNumsDict");
 
                     for (Object o : ticketData) {
                         MovieTicketEntity movieTicketEntity = new MovieTicketEntity();
-                        String name = (String)JSONObject.fromObject(o).get("Name");
-                        String summary = (String)JSONObject.fromObject(o).get("Summary");
-                        Double price = (Double)JSONObject.fromObject(o).get("Price");
-                        Integer spId = (Integer)JSONObject.fromObject(o).get("SpId");
+                        String name = (String) JSONObject.fromObject(o).get("Name");
+                        String summary = (String) JSONObject.fromObject(o).get("Summary");
+                        Double price = (Double) JSONObject.fromObject(o).get("Price");
+                        Integer spId = (Integer) JSONObject.fromObject(o).get("SpId");
                         movieTicketEntity.setName(name);
                         movieTicketEntity.setSummary(summary);
                         movieTicketEntity.setPrice(price);
@@ -84,27 +83,23 @@ public class MovieTest {
                         movieTicketEntities.add(movieTicketEntity);
                     }
                     System.out.println(movieTicketEntities.size());
-                    movieTicketEntities.forEach(a-> System.out.println(a));
+                    movieTicketEntities.forEach(a -> System.out.println(a));
+
                 }
-            } finally {
-                response.close();
-            }
-        } catch (ClientProtocolException e) {
-            e.printStackTrace();
-        } catch (ParseException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } finally {
-            // 关闭连接,释放资源
-            try {
-                httpclient.close();
+            } catch (ClientProtocolException e) {
+                e.printStackTrace();
+            } catch (ParseException e) {
+                e.printStackTrace();
             } catch (IOException e) {
                 e.printStackTrace();
             }
+
+
+        } catch (ClientProtocolException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
 
         return html;
-    }
-
-}
+    }}

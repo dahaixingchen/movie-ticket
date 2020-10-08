@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.fei.movieticket.mapper.MovieTicketMapper">
+
+
+    <select id="getUrlBo" resultType="com.fei.movieticket.bo.URLBo">
+        SELECT
+            url ,
+            big_div_class bigDivClass,
+            content_target contentTarget,
+            title_class titleClass,
+            price_class priceClass,
+            desc_class descClass,
+            num_class numClass
+        FROM
+            movie_ticket_html;
+    </select>
+</mapper>

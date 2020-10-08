@@ -1,14 +1,20 @@
 package com.fei.movieticket.controller;
 
+import com.fei.movieticket.bo.QueryConditionBo;
+import com.fei.movieticket.service.MovieTicketService;
 import com.fei.movieticket.util.ApiMessage;
 import com.fei.movieticket.util.MessageConstant;
+import com.fei.movieticket.vo.TicketVo;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
 
 /**
  * @ClassName: MovieTicketController
@@ -20,10 +26,14 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/movie")
 public class MovieTicketController {
-    @ApiOperation(value = "电影票通兑券")
-    @GetMapping("/ticket")
-    public ApiMessage addQuestions() {
 
-        return ApiMessage.success(MessageConstant.ADD_SUCCESS_MESSAGE);
+    @Autowired
+    private MovieTicketService movieTicketServiceImpl;
+
+    @ApiOperation(value = "电影票通兑券")
+    @PostMapping("/ticket")
+    public ApiMessage<TicketVo> ticket(@RequestBody QueryConditionBo queryConditionBo) {
+        List<TicketVo> tickets = movieTicketServiceImpl.disposeTicketResult(queryConditionBo);
+        return ApiMessage.success(MessageConstant.QUERY_SUCCESS_MESSAGE,tickets);
     }
 }
