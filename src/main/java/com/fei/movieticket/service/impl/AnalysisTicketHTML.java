@@ -105,6 +105,7 @@ public class AnalysisTicketHTML implements AnalysisTicket {
         if (titles.size() == price.size()){
             for (int i = 0; i < titles.size(); i++) {
                 TicketVo ticketVo = new TicketVo();
+                ticketVo.setUrl(htmlParmBo.getUrl());
                 ticketVo.setName(titles.get(i).text());
                 Matcher matcher = this.getMatcher(price.get(i));
                 if (matcher.find()){
@@ -116,6 +117,7 @@ public class AnalysisTicketHTML implements AnalysisTicket {
         if (titles.size() == price.size() && titles.size() == num.size()){
             for (int i = 0; i < titles.size(); i++) {
                 TicketVo ticketVo = new TicketVo();
+                ticketVo.setUrl(htmlParmBo.getUrl());
                 ticketVo.setName(titles.get(i).text());
                 Matcher priceMatcher = this.getMatcher(price.get(i));
                 if (priceMatcher.find()){
@@ -131,6 +133,7 @@ public class AnalysisTicketHTML implements AnalysisTicket {
         if (titles.size() == price.size() && titles.size() == num.size() && titles.size() == desc.size()){
             for (int i = 0; i < titles.size(); i++) {
                 TicketVo ticketVo = new TicketVo();
+                ticketVo.setUrl(htmlParmBo.getUrl());
                 ticketVo.setName(titles.get(i).text());
                 Matcher priceMatcher = this.getMatcher(price.get(i));
                 if (priceMatcher.find()){
@@ -265,5 +268,6 @@ public class AnalysisTicketHTML implements AnalysisTicket {
                 ticketVo.setDescribe(desc.get(j).text());
             }
         }
+        ticketVo.setUrl(htmlParmBo.getUrl());
     }
 }

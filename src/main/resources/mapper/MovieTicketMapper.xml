@@ -7,11 +7,19 @@
         SELECT
             url ,
             big_div_class bigDivClass,
-            content_target contentTarget,
+            standby_class1 standbyClass1,
+            standby_class2 standbyClass2,
             title_class titleClass,
+            num_class numClass,
             price_class priceClass,
             desc_class descClass,
-            num_class numClass
+            big_div_tag bigDivTag,
+            standby_tag1 standbyTag1,
+            standby_tag2 standbyTag2,
+            title_tag titleTag,
+            num_tag numTag,
+            price_tag priceTag ,
+            desc_tag descTag
         FROM
             movie_ticket_html;
     </select>

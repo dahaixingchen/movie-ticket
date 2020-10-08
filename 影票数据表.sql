@@ -8,7 +8,7 @@ create table movie_ticket_html(
 	num_class varchar(32) comment'影票数量的html，class标签',
 	price_class varchar(32) comment'影票价格的html，class标签',
 	desc_class varchar(32) comment'影票描述的html，class标签',
-	big_div_tag varchar(32) not null comment'包裹影票内容的tag大标签名称，在没有class属性的情况下使用',
+	big_div_tag varchar(32) comment'包裹影票内容的tag大标签名称，在没有class属性的情况下使用',
 	standby_tag1 varchar(32) comment'备用字段，用于解析的时候需要多个tag',
 	standby_tag2 varchar(32) comment'备用字段，用于解析的时候需要多个tag',
 	title_tag varchar(32) comment'标题的html，tag标签',
