@@ -32,7 +32,6 @@ public class JsoupTest {
         try {
             Document document = Jsoup.connect("http://fk.gofaka.cn/fkpt/index.php/Home/index/index/uid/1057981").get();
             Elements titles = document.getElementsByAttributeValue("class","good");
-            Elements price = document.getElementsByAttributeValue("class","good");
             for (int i = 0; i < titles.size(); i++) {
                 Elements p = titles.get(i).getElementsByTag("p");
                 System.out.println(p.get(0).text());
