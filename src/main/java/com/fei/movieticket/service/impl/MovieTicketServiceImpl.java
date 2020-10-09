@@ -6,6 +6,7 @@ import com.fei.movieticket.mapper.MovieTicketMapper;
 import com.fei.movieticket.service.AnalysisTicket;
 import com.fei.movieticket.service.MovieTicketService;
 import com.fei.movieticket.vo.TicketVo;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -27,11 +28,13 @@ public class MovieTicketServiceImpl implements MovieTicketService {
     @Resource
     private MovieTicketMapper movieTicketMapper;
 
+    @Autowired
+    private AnalysisTicket analysisTicket;
+
     @Override
     public List<TicketVo> disposeTicketResult(QueryConditionBo queryConditionBo) {
         List<URLBo> urls = movieTicketMapper.getUrlBo();
         List<TicketVo> ticketVos = new ArrayList<>();
-        AnalysisTicket analysisTicket = new AnalysisTicketHTML();
         urls.forEach(urlBo->{
             List<TicketVo> ticket = analysisTicket.getTicket(urlBo);
             ticketVos.addAll(ticket);
