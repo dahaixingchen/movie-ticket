@@ -6,14 +6,6 @@ spring:
     password: cheng2108638
   data:
     elasticsearch:
+      repositories:true
       cluster-name: movie-title
-      cluster-nodes: 47.112.115.39:9300
-      repositories:
-        enabled: true
-  elasticsearch:
-    rest:
-      uris: 47.112.115.39:39006
-
-mybatis:
-  mapper-locations: classpath:mapper/*Mapper.xml
-  type-aliases-package: com.xinwei.teachingplan.mapper
+      cluster-nodes: 47.112.115.39:39006
