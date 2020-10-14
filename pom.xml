@@ -97,15 +97,15 @@
         </dependency>
 
 <!--        搜索使用-->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-data-elasticsearch</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.google.guava</groupId>
-            <artifactId>guava</artifactId>
-            <version>19.0</version>
-        </dependency>
+<!--        <dependency>-->
+<!--            <groupId>org.springframework.boot</groupId>-->
+<!--            <artifactId>spring-boot-starter-data-elasticsearch</artifactId>-->
+<!--        </dependency>-->
+<!--        <dependency>-->
+<!--            <groupId>com.google.guava</groupId>-->
+<!--            <artifactId>guava</artifactId>-->
+<!--            <version>19.0</version>-->
+<!--        </dependency>-->
 <!--        java形式的elasticsearch-->
         <dependency>
             <groupId>org.elasticsearch.client</groupId>
@@ -127,6 +127,11 @@
             <artifactId>fastjson</artifactId>
             <version>1.2.67</version>
         </dependency>
+<!--        <dependency>-->
+<!--            <groupId>org.elasticsearch</groupId>-->
+<!--            <artifactId>elasticsearch</artifactId>-->
+<!--            <version>6.4.3</version>-->
+<!--        </dependency>-->
     </dependencies>
 
     <build>

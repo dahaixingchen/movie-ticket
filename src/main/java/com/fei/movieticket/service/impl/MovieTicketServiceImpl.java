@@ -5,6 +5,7 @@ import com.fei.movieticket.bo.URLBo;
 import com.fei.movieticket.mapper.MovieTicketMapper;
 import com.fei.movieticket.service.AnalysisTicket;
 import com.fei.movieticket.service.MovieTicketService;
+import com.fei.movieticket.service.SearchData;
 import com.fei.movieticket.vo.TicketVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -31,6 +32,9 @@ public class MovieTicketServiceImpl implements MovieTicketService {
     @Autowired
     private AnalysisTicket analysisTicket;
 
+    @Autowired
+    private SearchData searchData;
+
     @Override
     public List<TicketVo> disposeTicketResult(QueryConditionBo queryConditionBo) {
         List<URLBo> urls = movieTicketMapper.getUrlBo();
@@ -39,7 +43,8 @@ public class MovieTicketServiceImpl implements MovieTicketService {
             List<TicketVo> ticket = analysisTicket.getTicket(urlBo);
             ticketVos.addAll(ticket);
         });
-        return ticketVos;
+        return searchData.goodTicket(ticketVos);
     }
+
 
 }

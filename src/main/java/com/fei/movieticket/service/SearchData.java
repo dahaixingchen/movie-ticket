@@ -1,5 +1,9 @@
 package com.fei.movieticket.service;
 
-public interface SearchData {
+import com.fei.movieticket.vo.TicketVo;
 
+import java.util.List;
+
+public interface SearchData {
+    List<TicketVo> goodTicket(List<TicketVo> ticketVos);
 }
