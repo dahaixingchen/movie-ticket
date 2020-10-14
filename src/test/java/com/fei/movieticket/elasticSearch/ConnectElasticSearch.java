@@ -6,6 +6,8 @@ import org.elasticsearch.common.settings.Settings;
 import org.elasticsearch.common.transport.TransportAddress;
 import org.elasticsearch.common.xcontent.XContentType;
 import org.elasticsearch.transport.client.PreBuiltTransportClient;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.net.InetAddress;
@@ -21,6 +23,7 @@ public class ConnectElasticSearch {
 
     private TransportClient client;
 
+    @BeforeEach
     public void test() throws UnknownHostException {
         Settings settings = Settings.builder().put("cluster.name", "movie-title").build();
         client = new PreBuiltTransportClient(settings)
