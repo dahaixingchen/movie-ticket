@@ -1,5 +1,6 @@
 package com.fei.movieticket.service.impl;
 
+import com.alibaba.fastjson.JSONObject;
 import com.fei.movieticket.service.SearchData;
 import com.fei.movieticket.util.ConnectES;
 import com.fei.movieticket.vo.TicketVo;
@@ -33,8 +34,9 @@ public class SearchDataImpl implements SearchData {
     public List<TicketVo> goodTicket(List<TicketVo> ticketVos) {
         //把数据存入ES中
         for (int i = 0; i < ticketVos.size(); i++) {
+            String json = JSONObject.toJSONString(ticketVos.get(i));
             client.prepareIndex("ticket","html",String.valueOf(i))
-                    .setSource(ticketVos.get(i), XContentType.JSON).get();
+                    .setSource(json, XContentType.JSON).get();
         }
         //查询数据
 

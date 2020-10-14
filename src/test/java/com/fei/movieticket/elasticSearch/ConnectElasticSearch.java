@@ -3,12 +3,20 @@ package com.fei.movieticket.elasticSearch;
 import com.alibaba.fastjson.JSONObject;
 import com.fei.movieticket.vo.TicketVo;
 import org.elasticsearch.action.index.IndexResponse;
+import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.client.transport.TransportClient;
 import org.elasticsearch.common.settings.Settings;
 import org.elasticsearch.common.transport.TransportAddress;
+import org.elasticsearch.common.unit.Fuzziness;
 import org.elasticsearch.common.xcontent.XContentBuilder;
 import org.elasticsearch.common.xcontent.XContentFactory;
 import org.elasticsearch.common.xcontent.XContentType;
+import org.elasticsearch.index.query.MatchAllQueryBuilder;
+import org.elasticsearch.index.query.QueryBuilders;
+import org.elasticsearch.index.query.RangeQueryBuilder;
+import org.elasticsearch.index.query.TermQueryBuilder;
+import org.elasticsearch.search.SearchHit;
+import org.elasticsearch.search.SearchHits;
 import org.elasticsearch.transport.client.PreBuiltTransportClient;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -136,5 +144,75 @@ public class ConnectElasticSearch {
         client.admin().indices().prepareDelete("indexsearch").execute().actionGet();
         client.close();
     }
+
+    /**
+     * 查询所有数据
+     */
+    @Test
+    public void queryAll() {
+        SearchResponse searchResponse = client
+                .prepareSearch("ticket")
+                .setTypes("html")
+                .setQuery(new MatchAllQueryBuilder()).setSize(10000)
+                .get();
+        SearchHits searchHits = searchResponse.getHits();
+        SearchHit[] hits = searchHits.getHits();
+        for (SearchHit hit : hits) {
+            String sourceAsString = hit.getSourceAsString();
+            System.out.println(sourceAsString);
+        }
+        client.close();
+    }
+
+    /**
+     * 查找价格18到28的人,包含18和28
+     */
+    @Test
+    public void  rangeQuery(){
+        SearchResponse searchResponse = client.prepareSearch("ticket")
+                .setTypes("html")
+                .setQuery(new RangeQueryBuilder("price").gt(0).lt(25)).setSize(1000)
+                .get();
+        SearchHits hits = searchResponse.getHits();
+        SearchHit[] hits1 = hits.getHits();
+        for (SearchHit documentFields : hits1) {
+            System.out.println(documentFields.getSourceAsString());
+        }
+        client.close();
+    }
+
+    /**
+     * 词条查询
+     */
+    @Test
+    public  void termQuery(){
+        SearchResponse searchResponse = client.prepareSearch("ticket").setTypes("html")
+                .setQuery(new TermQueryBuilder("name", "四川"))
+                .get();
+        SearchHits hits = searchResponse.getHits();
+        SearchHit[] hits1 = hits.getHits();
+        for (SearchHit documentFields : hits1) {
+            System.out.println(documentFields.getSourceAsString());
+        }
+    }
+
+
+    /**
+     * 模糊匹配查询有两种匹配符，分别是" * " 以及 " ? "， 用" * "来匹配任何字符，包括空字符串。用" ? "来匹配任意的单个字符
+     */
+    @Test
+    public void wildCardQueryTest(){
+        SearchResponse searchResponse = client.prepareSearch("ticket").setTypes("html")
+                .setQuery(QueryBuilders.wildcardQuery("name", "万达*"))
+                .get();
+        SearchHits hits = searchResponse.getHits();
+        SearchHit[] hits1 = hits.getHits();
+        for (SearchHit documentFields : hits1) {
+            System.out.println(documentFields.getSourceAsString());
+        }
+        client.close();
+    }
+
+
 
 }
