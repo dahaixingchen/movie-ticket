@@ -33,7 +33,12 @@ public class MovieTicketController {
     @ApiOperation(value = "电影票通兑券")
     @PostMapping("/ticket")
     public ApiMessage<TicketVo> ticket(@RequestBody QueryConditionBo queryConditionBo) {
+        if (queryConditionBo.getPlatform() == null && queryConditionBo.getPrice() == null
+                && queryConditionBo.getArea() == null && queryConditionBo.getCinema() == null){
+            return ApiMessage.error(MessageConstant.ALL_NULL);
+        }
         List<TicketVo> tickets = movieTicketServiceImpl.disposeTicketResult(queryConditionBo);
-        return ApiMessage.success(MessageConstant.QUERY_SUCCESS_MESSAGE,tickets);
+        ApiMessage success = ApiMessage.success(MessageConstant.QUERY_SUCCESS_MESSAGE, tickets.size(), tickets);
+        return success;
     }
 }
