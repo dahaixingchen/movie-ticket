@@ -10,12 +10,15 @@ import lombok.Data;
  **/
 @Data
 public class QueryConditionBo {
-    //根据标题去查询
-    private String titleQuery;
+    //根据影院查询
+    private String cinema;
 
-    //根据内容查询
-    private String descQuery;
+    //根据平台查询
+    private String platform;
+
+    //根据地区查询
+    private String area;
 
     //根据价格查询
-    private Double priceQuery;
+    private Double price;
 }

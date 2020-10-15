@@ -3,6 +3,7 @@ package com.fei.movieticket.elasticSearch;
 import com.alibaba.fastjson.JSONObject;
 import com.fei.movieticket.vo.TicketVo;
 import org.elasticsearch.action.index.IndexResponse;
+import org.elasticsearch.action.search.SearchRequestBuilder;
 import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.client.transport.TransportClient;
 import org.elasticsearch.common.settings.Settings;
@@ -11,10 +12,13 @@ import org.elasticsearch.common.unit.Fuzziness;
 import org.elasticsearch.common.xcontent.XContentBuilder;
 import org.elasticsearch.common.xcontent.XContentFactory;
 import org.elasticsearch.common.xcontent.XContentType;
+import org.elasticsearch.index.query.FuzzyQueryBuilder;
 import org.elasticsearch.index.query.MatchAllQueryBuilder;
+import org.elasticsearch.index.query.QueryBuilder;
 import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.index.query.RangeQueryBuilder;
 import org.elasticsearch.index.query.TermQueryBuilder;
+import org.elasticsearch.index.query.TermsQueryBuilder;
 import org.elasticsearch.search.SearchHit;
 import org.elasticsearch.search.SearchHits;
 import org.elasticsearch.transport.client.PreBuiltTransportClient;
@@ -24,6 +28,7 @@ import org.junit.jupiter.api.Test;
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
+import java.util.List;
 
 /**
  * @ClassName: TransportClient
@@ -187,7 +192,7 @@ public class ConnectElasticSearch {
     @Test
     public  void termQuery(){
         SearchResponse searchResponse = client.prepareSearch("ticket").setTypes("html")
-                .setQuery(new TermQueryBuilder("name", "四川"))
+                .setQuery(new TermQueryBuilder("name", "淘票票"))
                 .get();
         SearchHits hits = searchResponse.getHits();
         SearchHit[] hits1 = hits.getHits();
@@ -203,11 +208,71 @@ public class ConnectElasticSearch {
     @Test
     public void wildCardQueryTest(){
         SearchResponse searchResponse = client.prepareSearch("ticket").setTypes("html")
-                .setQuery(QueryBuilders.wildcardQuery("name", "万达*"))
+                .setQuery(QueryBuilders.wildcardQuery("name", "河南"))
                 .get();
         SearchHits hits = searchResponse.getHits();
         SearchHit[] hits1 = hits.getHits();
         for (SearchHit documentFields : hits1) {
+            System.out.println(documentFields.getSourceAsString());
+        }
+        client.close();
+    }
+
+    /**
+     * fuzzyQuery表示英文单词的最大可纠正次数，最大可以自动纠正两次
+     */
+    @Test
+    public void fuzzyQuery(){
+        SearchResponse searchResponse = client.prepareSearch("ticket").setTypes("html")
+                .setQuery(QueryBuilders.fuzzyQuery("name", "河南省万达").fuzziness(Fuzziness.TWO))
+                .setSize(1000).get();
+        SearchHits hits = searchResponse.getHits();
+        SearchHit[] hits1 = hits.getHits();
+        for (SearchHit documentFields : hits1) {
+            System.out.println(documentFields.getSourceAsString());
+        }
+        client.close();
+    }
+
+
+    /**
+     * 多条件组合查询 boolQuery
+     * 查询年龄是18到28范围内且性别是男性的，或者id范围在10到13范围内的
+     * should表示或，求的是并集，must表示的是交集
+     */
+    @Test
+    public void boolQueryTest(){
+        String s = null;
+        QueryBuilder price = QueryBuilders.rangeQuery("price").gt(0).lt(30);
+        TermsQueryBuilder termsQueryBuilder = QueryBuilders.termsQuery("name", "万达");
+        TermsQueryBuilder termsQueryBuilder1 = QueryBuilders.termsQuery("name", "重庆");
+        FuzzyQueryBuilder fuzziness = QueryBuilders.fuzzyQuery("name", "河南").fuzziness(Fuzziness.TWO);
+        FuzzyQueryBuilder name = QueryBuilders.fuzzyQuery("name", "万达").fuzziness(Fuzziness.TWO);
+        List<Object> values = termsQueryBuilder1.values();
+        List<Object> values1 = termsQueryBuilder.values();
+
+        SearchResponse searchResponse = client.prepareSearch("ticket").setTypes("html")
+                .setQuery(
+                        QueryBuilders.boolQuery()
+                                .must(QueryBuilders.boolQuery()
+                                        .must(price)
+                                        .must(termsQueryBuilder)
+                                        .must(termsQueryBuilder1))
+                )
+                .setSize(1000).get();
+        SearchHits hits = searchResponse.getHits();
+        SearchHit[] hits1 = hits.getHits();
+        for (SearchHit documentFields : hits1) {
+            System.out.println(documentFields.getFields());
+            TicketVo ticketVo = JSONObject.parseObject(documentFields.getSourceAsString(), TicketVo.class);
+
+            System.out.println(documentFields.getSourceAsString());
+
+        }
+        SearchRequestBuilder ticket = client.prepareSearch("ticket");
+        SearchResponse searchResponse1 = ticket.setSize(1000).get();
+        SearchHit[] hits2 = searchResponse1.getHits().getHits();
+        for (SearchHit documentFields : hits2) {
             System.out.println(documentFields.getSourceAsString());
         }
         client.close();

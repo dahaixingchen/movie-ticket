@@ -43,7 +43,7 @@ public class MovieTicketServiceImpl implements MovieTicketService {
             List<TicketVo> ticket = analysisTicket.getTicket(urlBo);
             ticketVos.addAll(ticket);
         });
-        return searchData.goodTicket(ticketVos);
+        return searchData.goodTicket(ticketVos,queryConditionBo);
     }
 
 

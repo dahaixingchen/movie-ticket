@@ -8,6 +8,7 @@ create table movie_ticket_html(
 	num_class varchar(32) comment'影票数量的html，class标签',
 	price_class varchar(32) comment'影票价格的html，class标签',
 	desc_class varchar(32) comment'影票描述的html，class标签',
+	url_class varchar(32) comment'影票购买的html，class标签',
 	big_div_tag varchar(32) comment'包裹影票内容的tag大标签名称，在没有class属性的情况下使用',
 	standby_tag1 varchar(32) comment'备用字段，用于解析的时候需要多个tag',
 	standby_tag2 varchar(32) comment'备用字段，用于解析的时候需要多个tag',
@@ -15,5 +16,8 @@ create table movie_ticket_html(
 	num_tag varchar(32) comment'影票数量的html，tag标签',
 	price_tag varchar(32) comment'影票价格的html，tag标签',
 	desc_tag varchar(32) comment'影票描述的html，tag标签',
-	PRIMARY KEY (`id`)
+	url_tag varchar(32) comment'影票购买的html，tag标签',
+	create_time timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+	update_time timestamp not NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
+	PRIMARY KEY (id)
 ) comment'get请求的方式直接解析HTML，所需信息表';

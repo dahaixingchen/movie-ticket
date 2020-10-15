@@ -18,7 +18,18 @@ public class ApiMessage<T> {
 
     private String errorCode;
 
+    private Integer dataSize;
+
+    public Integer getDataSize() {
+        return dataSize;
+    }
+
+    public void setDataSize(Integer dataSize) {
+        this.dataSize = dataSize;
+    }
+
     private T data;
+
 
     public ApiMessage() {
         super();
@@ -52,12 +63,24 @@ public class ApiMessage<T> {
         this.data = data;
     }
 
-    public static ApiMessage success(String message) {
-        return new ApiMessage(DateTimeUtil.initCurrentTime(), SUCCESS, message);
+    public ApiMessage(String timestamp, int status, String message, Integer dataSize, T data) {
+        this.timestamp = timestamp;
+        this.status = status;
+        this.message = message;
+        this.dataSize = dataSize;
+        this.data = data;
     }
 
-    public static ApiMessage success(String message, Object data) {
-        return new ApiMessage(DateTimeUtil.initCurrentTime(), SUCCESS, message, data);
+//    public static ApiMessage success(String message) {
+//        return new ApiMessage(DateTimeUtil.initCurrentTime(), SUCCESS, message);
+//    }
+//
+//    public static ApiMessage success(String message, Object data) {
+//        return new ApiMessage(DateTimeUtil.initCurrentTime(), SUCCESS, message, data);
+//    }
+
+    public static ApiMessage success(String message,Integer dataSize, Object data) {
+        return new ApiMessage(DateTimeUtil.initCurrentTime(), SUCCESS, message,dataSize, data);
     }
 
     public static ApiMessage errorParam(String message) {
