@@ -55,7 +55,6 @@ public class MovieTest {
             // 创建httpget对象
             HttpPost httpPost = new HttpPost(url);
             httpPost.setHeader("Referer", "http://shop.ajiyouhuiquan.top/");
-            httpPost.setHeader("Authorization", "Basic Og==");
             httpPost.setHeader("Cookie", "visit_stat_key=KNG8CE3U37D67CGWRTCMHZM2; ASP.NET_SessionId=xxmswej4w5ar3ue5il52mp0o; visit_stat_key=KNG8CE3U37D67CGWRTCMHZM2; Cookie_1=value");
             // 执行post请求.
             HttpResponse response = httpclient.execute(httpPost);

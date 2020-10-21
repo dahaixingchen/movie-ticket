@@ -41,12 +41,17 @@ public class AnalysisTicketHTML implements AnalysisTicket {
             if (htmlParmBo.getBigDivClass() != null) {
                 //用class解析
                 Elements titles = document.getElementsByAttributeValue("class", htmlParmBo.getBigDivClass());
-                for (int i = 0; i < titles.size(); i++) {
-                    TicketVo ticketVo = new TicketVo();
-                    //解析具体的影票属性
-                    this.titleDetail(ticketVo,htmlParmBo, titles, i);
-                    ticketVos.add(ticketVo);
+                if (titles.size() == 1) {
+                    //如果titles为1说明接下能一步解析到位
+                    this.titleDetail(ticketVos, titles, htmlParmBo);
+                } else {
+                    for (int i = 0; i < titles.size(); i++) {
+                        TicketVo ticketVo = new TicketVo();
+                        //解析具体的影票属性
+                        this.titleDetail(ticketVo, htmlParmBo, titles, i);
+                        ticketVos.add(ticketVo);
 
+                    }
                 }
             } else if (htmlParmBo.getBigDivTag() != null) {
                 //用tag解析
@@ -54,12 +59,12 @@ public class AnalysisTicketHTML implements AnalysisTicket {
                 for (int i = 0; i < titles.size(); i++) {
                     TicketVo ticketVo = new TicketVo();
                     //解析具体的影票属性
-                    this.titleDetail(ticketVo,htmlParmBo, titles, i);
+                    this.titleDetail(ticketVo, htmlParmBo, titles, i);
                     ticketVos.add(ticketVo);
                 }
             } else {
                 //直接能一步解析到位
-                this.titleDetail(ticketVos,document,htmlParmBo);
+//                this.titleDetail(ticketVos, document, htmlParmBo);
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -68,84 +73,89 @@ public class AnalysisTicketHTML implements AnalysisTicket {
     }
 
     /**
-     * @Description: 具体的影票属性解析(一步解析得到)
+     *
+     * @param elements
      * @param htmlParmBo
      * @return void
+     * @Description: 具体的影票属性解析，只有一个元素(一步解析得到)
      * @date: 2020/10/8 17:26
      */
-    private void titleDetail(List<TicketVo> ticketVos,Document document,URLBo htmlParmBo) {
+    private void titleDetail(List<TicketVo> ticketVos, Elements elements, URLBo htmlParmBo) {
+//        Elements aClass = document.getElementsByAttributeValue("class", htmlParmBo.getBigDivClass());
         Elements titles = new Elements();
         Elements num = new Elements();
         Elements price = new Elements();
         Elements desc = new Elements();
         //按照class解析
-        if (htmlParmBo.getTitleClass() != null){
-            titles = document.getElementsByAttributeValue("class", htmlParmBo.getTitleClass());
+        if (htmlParmBo.getTitleClass() != null) {
+            titles = elements.get(0).getElementsByAttributeValue("class", htmlParmBo.getTitleClass());
         }
-        if (htmlParmBo.getNumClass() != null){
-            num = document.getElementsByAttributeValue("class", htmlParmBo.getNumClass());
+        if (htmlParmBo.getNumClass() != null) {
+            num = elements.get(0).getElementsByAttributeValue("class", htmlParmBo.getNumClass());
         }
-        if (htmlParmBo.getPriceClass() != null){
-            price = document.getElementsByAttributeValue("class", htmlParmBo.getPriceClass());
+        if (htmlParmBo.getPriceClass() != null) {
+            price = elements.get(0).getElementsByAttributeValue("class", htmlParmBo.getPriceClass());
         }
-        if (htmlParmBo.getDescClass() != null){
-            desc = document.getElementsByAttributeValue("class", htmlParmBo.getDescClass());
+        if (htmlParmBo.getDescClass() != null) {
+            desc = elements.get(0).getElementsByAttributeValue("class", htmlParmBo.getDescClass());
         }
         //按照tag解析
-        if (htmlParmBo.getTitleTag() != null){
-            titles = document.getElementsByTag(htmlParmBo.getTitleTag());
+        if (htmlParmBo.getTitleTag() != null) {
+            titles = elements.get(0).getElementsByTag(htmlParmBo.getTitleTag());
         }
-        if (htmlParmBo.getNumTag() != null){
-            num = document.getElementsByTag(htmlParmBo.getNumTag());
+        if (htmlParmBo.getNumTag() != null) {
+            num = elements.get(0).getElementsByTag(htmlParmBo.getNumTag());
         }
-        if (htmlParmBo.getPriceTag() != null){
-            price = document.getElementsByTag(htmlParmBo.getPriceTag());
+        if (htmlParmBo.getPriceTag() != null) {
+            price = elements.get(0).getElementsByTag(htmlParmBo.getPriceTag());
         }
-        if (htmlParmBo.getDescTag() != null){
-            desc = document.getElementsByTag(htmlParmBo.getDescTag());
+        if (htmlParmBo.getDescTag() != null) {
+            desc = elements.get(0).getElementsByTag(htmlParmBo.getDescTag());
         }
-        if (titles.size() == price.size()){
+        if (ticketVos.size() == 0 && titles.size() == price.size() && titles.size() == num.size() && titles.size() == desc.size()) {
+            for (int i = 0; i < titles.size(); i++) {
+                TicketVo ticketVo = new TicketVo();
+                ticketVo.setUrl(htmlParmBo.getUrl());
+                ticketVo.setName(titles.get(i).text());
+                Matcher priceMatcher = this.getMatcher(price.get(i));
+                if (priceMatcher.find()) {
+                    ticketVo.setPrice(Double.valueOf(priceMatcher.group(1)));
+                }
+                Matcher numMatcher = this.getMatcher(num.get(i));
+                if (numMatcher.find()) {
+                    ticketVo.setNum(Integer.valueOf(numMatcher.group(1)));
+                }
+                ticketVo.setDescribe(desc.get(i).text());
+            }
+        }
+
+        if (ticketVos.size() == 0 && titles.size() == price.size() && titles.size() == num.size()) {
+            for (int i = 0; i < titles.size(); i++) {
+                TicketVo ticketVo = new TicketVo();
+                ticketVo.setUrl(htmlParmBo.getUrl());
+                ticketVo.setName(titles.get(i).text());
+                Matcher priceMatcher = this.getMatcher(price.get(i));
+                if (priceMatcher.find()) {
+                    ticketVo.setPrice(Double.valueOf(priceMatcher.group(1)));
+                }
+                Matcher numMatcher = this.getMatcher(num.get(i));
+                if (numMatcher.find()) {
+                    ticketVo.setNum(Integer.valueOf(numMatcher.group(1)));
+                }
+                ticketVos.add(ticketVo);
+            }
+        }
+
+        if (ticketVos.size() == 0 && titles.size() == price.size()) {
             for (int i = 0; i < titles.size(); i++) {
                 TicketVo ticketVo = new TicketVo();
                 ticketVo.setUrl(htmlParmBo.getUrl());
                 ticketVo.setName(titles.get(i).text());
                 Matcher matcher = this.getMatcher(price.get(i));
-                if (matcher.find()){
+                if (matcher.find()) {
                     ticketVo.setPrice(Double.valueOf(matcher.group(1)));
                 }
                 ticketVos.add(ticketVo);
-            }
-        }
-        if (titles.size() == price.size() && titles.size() == num.size()){
-            for (int i = 0; i < titles.size(); i++) {
-                TicketVo ticketVo = new TicketVo();
-                ticketVo.setUrl(htmlParmBo.getUrl());
-                ticketVo.setName(titles.get(i).text());
-                Matcher priceMatcher = this.getMatcher(price.get(i));
-                if (priceMatcher.find()){
-                    ticketVo.setPrice(Double.valueOf(priceMatcher.group(1)));
-                }
-                Matcher numMatcher = this.getMatcher(num.get(i));
-                if (numMatcher.find()){
-                    ticketVo.setNum(Integer.valueOf(numMatcher.group(1)));
-                }
-                ticketVos.add(ticketVo);
-            }
-        }
-        if (titles.size() == price.size() && titles.size() == num.size() && titles.size() == desc.size()){
-            for (int i = 0; i < titles.size(); i++) {
-                TicketVo ticketVo = new TicketVo();
-                ticketVo.setUrl(htmlParmBo.getUrl());
-                ticketVo.setName(titles.get(i).text());
-                Matcher priceMatcher = this.getMatcher(price.get(i));
-                if (priceMatcher.find()){
-                    ticketVo.setPrice(Double.valueOf(priceMatcher.group(1)));
-                }
-                Matcher numMatcher = this.getMatcher(num.get(i));
-                if (numMatcher.find()){
-                    ticketVo.setNum(Integer.valueOf(numMatcher.group(1)));
-                }
-                ticketVo.setDescribe(desc.get(i).text());
             }
         }
     }
@@ -158,46 +168,46 @@ public class AnalysisTicketHTML implements AnalysisTicket {
     }
 
     /**
-     * @Description: 具体的影票属性解析(需要两步解析得到)
      * @param htmlParmBo
      * @param i
      * @return void
+     * @Description: 具体的影票属性解析(需要两步解析得到)
      * @date: 2020/10/8 17:17
      */
-    private void titleDetail(TicketVo ticketVo,URLBo htmlParmBo, Elements elements, int i) {
+    private void titleDetail(TicketVo ticketVo, URLBo htmlParmBo, Elements elements, int i) {
         Elements titles = new Elements();
         Elements num = new Elements();
         Elements price = new Elements();
         Elements desc = new Elements();
         //按照class解析
-        if (htmlParmBo.getTitleClass() != null){
+        if (htmlParmBo.getTitleClass() != null) {
             titles = elements.get(i).getElementsByAttributeValue("class", htmlParmBo.getTitleClass());
         }
-        if (htmlParmBo.getNumClass() != null){
+        if (htmlParmBo.getNumClass() != null) {
             num = elements.get(i).getElementsByAttributeValue("class", htmlParmBo.getNumClass());
         }
-        if (htmlParmBo.getPriceClass() != null){
+        if (htmlParmBo.getPriceClass() != null) {
             price = elements.get(i).getElementsByAttributeValue("class", htmlParmBo.getPriceClass());
         }
-        if (htmlParmBo.getDescClass() != null){
+        if (htmlParmBo.getDescClass() != null) {
             desc = elements.get(i).getElementsByAttributeValue("class", htmlParmBo.getDescClass());
         }
         //按照tag解析
-        if (htmlParmBo.getTitleTag() != null){
+        if (htmlParmBo.getTitleTag() != null) {
             titles = elements.get(i).getElementsByTag(htmlParmBo.getTitleTag());
         }
-        if (htmlParmBo.getNumTag() != null){
+        if (htmlParmBo.getNumTag() != null) {
             num = elements.get(i).getElementsByTag(htmlParmBo.getNumTag());
         }
-        if (htmlParmBo.getPriceTag() != null){
+        if (htmlParmBo.getPriceTag() != null) {
             price = elements.get(i).getElementsByTag(htmlParmBo.getPriceTag());
         }
-        if (htmlParmBo.getDescTag() != null){
+        if (htmlParmBo.getDescTag() != null) {
             desc = elements.get(i).getElementsByTag(htmlParmBo.getDescTag());
         }
 
         //影票所有的属性都用一个tag标签
-        if (htmlParmBo.getTitleTag() != null && htmlParmBo.getPriceTag() == null ){
+        if (htmlParmBo.getTitleTag() != null && htmlParmBo.getPriceTag() == null) {
             for (int i1 = 0; i1 < titles.size(); i1++) {
                 if (i1 == 0) {
                     //第一个默认肯定是标题
@@ -216,7 +226,7 @@ public class AnalysisTicketHTML implements AnalysisTicket {
             }
         }
         //影票所有的属性都用一个class标记
-        if (htmlParmBo.getTitleClass() != null && htmlParmBo.getPriceClass() == null ){
+        if (htmlParmBo.getTitleClass() != null && htmlParmBo.getPriceClass() == null) {
             for (int i1 = 0; i1 < titles.size(); i1++) {
                 if (i1 == 0) {
                     //第一个默认肯定是标题
@@ -234,37 +244,37 @@ public class AnalysisTicketHTML implements AnalysisTicket {
                 }
             }
         }
-        if (titles.size() == price.size()){
+        if (titles.size() == price.size()) {
             for (int j = 0; j < titles.size(); j++) {
                 ticketVo.setName(titles.get(j).text());
                 Matcher matcher = this.getMatcher(price.get(j));
-                if (matcher.find()){
+                if (matcher.find()) {
                     ticketVo.setPrice(Double.valueOf(matcher.group(1)));
                 }
             }
         }
-        if (titles.size() == price.size() && titles.size() == num.size()){
+        if (titles.size() == price.size() && titles.size() == num.size()) {
             for (int j = 0; j < titles.size(); j++) {
                 ticketVo.setName(titles.get(j).text());
                 Matcher priceMatcher = this.getMatcher(price.get(j));
-                if (priceMatcher.find()){
+                if (priceMatcher.find()) {
                     ticketVo.setPrice(Double.valueOf(priceMatcher.group(1)));
                 }
                 Matcher numMatcher = this.getMatcher(num.get(j));
-                if (numMatcher.find()){
+                if (numMatcher.find()) {
                     ticketVo.setNum(Integer.valueOf(numMatcher.group(1)));
                 }
             }
         }
-        if (titles.size() == price.size() && titles.size() == num.size() && titles.size() == desc.size()){
+        if (titles.size() == price.size() && titles.size() == num.size() && titles.size() == desc.size()) {
             for (int j = 0; j < titles.size(); j++) {
                 ticketVo.setName(titles.get(j).text());
                 Matcher priceMatcher = this.getMatcher(price.get(j));
-                if (priceMatcher.find()){
+                if (priceMatcher.find()) {
                     ticketVo.setPrice(Double.parseDouble(priceMatcher.group(1)));
                 }
                 Matcher numMatcher = this.getMatcher(num.get(j));
-                if (numMatcher.find()){
+                if (numMatcher.find()) {
                     ticketVo.setNum(Integer.valueOf(numMatcher.group(1)));
                 }
                 ticketVo.setDescribe(desc.get(j).text());

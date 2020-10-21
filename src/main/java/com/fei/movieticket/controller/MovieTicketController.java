@@ -35,7 +35,22 @@ public class MovieTicketController {
     @ApiOperation(value = "电影票通兑券")
     @PostMapping("/ticket")
     public ApiMessage<TicketVo> ticket(@RequestBody QueryConditionBo queryConditionBo) {
-        if (queryConditionBo.getPlatform() == null && queryConditionBo.getPrice() == null
+        if ("".equals(queryConditionBo.getCinema())){
+            queryConditionBo.setCinema(null);
+        }
+        if ("".equals(queryConditionBo.getPrice())){
+            queryConditionBo.setPrice(null);
+        }
+        if ("".equals(queryConditionBo.getPlatform())){
+            queryConditionBo.setPlatform(null);
+        }
+        if ("".equals(queryConditionBo.getArea())){
+            queryConditionBo.setArea(null);
+        }
+        if ("".equals(queryConditionBo.getMovieName())){
+            queryConditionBo.setMovieName(null);
+        }
+        if (queryConditionBo.getPlatform() == null && queryConditionBo.getPrice() == null && queryConditionBo.getMovieName() == null
                 && queryConditionBo.getArea() == null && queryConditionBo.getCinema() == null){
             return ApiMessage.error(MessageConstant.ALL_NULL);
         }

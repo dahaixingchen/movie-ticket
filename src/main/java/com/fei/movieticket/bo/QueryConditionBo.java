@@ -21,4 +21,7 @@ public class QueryConditionBo {
 
     //根据价格查询
     private Double price;
+
+    //根据电影名称查询
+    private String movieName;
 }

@@ -19,7 +19,7 @@ import java.util.regex.Pattern;
  * @Date 2020/10/8 10:00
  * @Description: TODO
  **/
-public class JsoupTest {
+public class JsoupGetTest {
     public static void main(String[] args) {
         try {
             Document document = Jsoup.connect("http://mingming.84fk.cn/").get();

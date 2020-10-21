@@ -3,3 +3,4 @@ server:
 spring:
   profiles:
     active: online
+#    active: dev
