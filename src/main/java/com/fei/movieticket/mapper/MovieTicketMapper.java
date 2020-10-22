@@ -12,4 +12,5 @@ public interface MovieTicketMapper {
      */
     List<HtmlURLBo> getUrlBo();
 
+    List<URLBo> getPortUrlBo();
 }

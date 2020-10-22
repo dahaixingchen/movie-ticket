@@ -23,4 +23,13 @@
         FROM
             movie_ticket_html;
     </select>
+    <select id="getPortUrlBo" resultType="com.fei.movieticket.bo.URLBo">
+        SELECT
+            url ,
+            referer,
+            userAgent,
+            cookie
+        FROM
+            movie_ticket_port;
+    </select>
 </mapper>

@@ -1,6 +1,7 @@
 package com.fei.movieticket.service.impl;
 
 import com.fei.movieticket.bo.QueryConditionBo;
+import com.fei.movieticket.bo.URLBo;
 import com.fei.movieticket.mapper.MovieTicketMapper;
 import com.fei.movieticket.service.AnalysisTicket;
 import com.fei.movieticket.service.MovieTicketService;
@@ -29,20 +30,25 @@ public class MovieTicketServiceImpl implements MovieTicketService {
     private MovieTicketMapper movieTicketMapper;
 
     @Autowired
-    private AnalysisTicket analysisTicket;
+    private AnalysisTicketHTML analysisTicketHTML;
+
+    @Autowired
+    private AnalysisTicketPort analysisTicketPort;
 
     @Autowired
     private SearchData searchData;
 
     @Override
     public List<TicketVo> disposeTicketResult(QueryConditionBo queryConditionBo) {
-        List<HtmlURLBo> urls = movieTicketMapper.getUrlBo();
-        PortURLBo portURLBos = new PortURLBo();
-//        portURLBos.getId()
+        List<URLBo> urls = movieTicketMapper.getUrlBo();
+        List<URLBo> portUrls = movieTicketMapper.getPortUrlBo();
         List<TicketVo> ticketVos = new ArrayList<>();
         urls.forEach(urlBo->{
-            List<TicketVo> ticket = analysisTicket.getTicket(urlBo);
-            List<TicketVo> ticket1 = analysisTicket.getTicket(portURLBos);
+            List<TicketVo> ticket = analysisTicketHTML.getTicket(urlBo);
+            ticketVos.addAll(ticket);
+        });
+        portUrls.forEach(urlBo->{
+            List<TicketVo> ticket = analysisTicketPort.getTicket(urlBo);
             ticketVos.addAll(ticket);
         });
         return searchData.goodTicket(ticketVos,queryConditionBo);
