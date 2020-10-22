@@ -30,7 +30,10 @@ public class MovieTicketServiceImpl implements MovieTicketService {
     private MovieTicketMapper movieTicketMapper;
 
     @Autowired
-    private AnalysisTicket analysisTicket;
+    private AnalysisTicketHTML analysisTicketHTML;
+
+    @Autowired
+    private AnalysisTicketPort analysisTicketPort;
 
     @Autowired
     private SearchData searchData;
@@ -38,9 +41,14 @@ public class MovieTicketServiceImpl implements MovieTicketService {
     @Override
     public List<TicketVo> disposeTicketResult(QueryConditionBo queryConditionBo) {
         List<URLBo> urls = movieTicketMapper.getUrlBo();
+        List<URLBo> portUrls = movieTicketMapper.getPortUrlBo();
         List<TicketVo> ticketVos = new ArrayList<>();
         urls.forEach(urlBo->{
-            List<TicketVo> ticket = analysisTicket.getTicket(urlBo);
+            List<TicketVo> ticket = analysisTicketHTML.getTicket(urlBo);
+            ticketVos.addAll(ticket);
+        });
+        portUrls.forEach(urlBo->{
+            List<TicketVo> ticket = analysisTicketPort.getTicket(urlBo);
             ticketVos.addAll(ticket);
         });
         return searchData.goodTicket(ticketVos,queryConditionBo);

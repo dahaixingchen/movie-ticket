@@ -1,6 +1,7 @@
 package com.fei.movieticket.bo;
 
 import lombok.Data;
+import sun.management.Agent;
 
 /**
  * @ClassName: URLBo
@@ -25,4 +26,8 @@ public class URLBo {
     private String numTag;
     private String priceTag;
     private String descTag;
+
+    private String referer;
+    private String userAgent;
+    private String cookie;
 }
