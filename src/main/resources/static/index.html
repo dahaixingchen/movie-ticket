@@ -2,12 +2,54 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <title>Title</title>
 </head>
 <body>
-    <div>
-        欢迎来到优惠电影票
+<div id="app" >
+    <input  type="text" v-model="cinema" @keyup.enter = "getTickte">
+    <input type="button" value="查询"  @click="getTickte">
+    <div v-for="(item,idx) in ticketList" :key="idx">
+        <div>
+            标题：{{ item.name }}
+        </div>
+        <div>
+            价格：{{ item.price }}
+        </div>
     </div>
-
+</div>
 </body>
+<script>
+    var app = new Vue({
+        el:'#app',
+        data:{
+            cinema: null,
+            platform:null,
+            price:null,
+            area:null,
+            ticketList: [
+                {name:"",price:"",num:"",description:"",url:""}
+            ]
+        },
+        // created(){
+        //     this.getTickte()
+        //     console.log(this)
+        // },
+        methods:{
+            getTickte:function () {
+                var that = this;
+                console.log(this.cinema)
+                console.log(that.cinema)
+                // axios.post("http://10.3.0.52:8081/movie/ticket",{"cinema":that.cinema,"platform":that.platform
+                axios.post("http://localhost:8081/movie/ticket",{"cinema":that.cinema,"platform":that.platform
+                    ,"price":that.price,"area":that.area})
+                    .then(function(response) {
+                        console.log(this);
+                        that.ticketList = response.data.data
+                    })
+            }
+        }
+    })
+</script>
 </html>
