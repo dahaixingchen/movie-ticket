@@ -27,7 +27,7 @@
         SELECT
             url ,
             referer,
-            userAgent,
+            user_agent userAgent,
             cookie
         FROM
             movie_ticket_port;

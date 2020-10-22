@@ -134,7 +134,7 @@ public class HttpPostTest {
 
     //不带json串的post请求
     @Test
-    public void test11() throws IOException {
+    public void test1111() throws IOException {
         HttpClient httpclient = HttpClientBuilder.create().build();
         HttpPost httpPost = new HttpPost("http://res.91kami.com/Index/Index?q=&p=1&size=20&showInStore=false");
         httpPost.setHeader("Referer","http://shop.ajiyouhuiquan.top/");
@@ -149,7 +149,7 @@ public class HttpPostTest {
 
     //不带json串的post请求
     @Test
-    public void test111() throws IOException {
+    public void test11111() throws IOException {
         HttpClient httpclient = HttpClientBuilder.create().build();
         HttpPost httpPost = new HttpPost("http://res.91kami.com/Index/Index?q=&p=1&size=20&showInStore=false");
         httpPost.setHeader("Referer","http://shop.slc0929.top/");
