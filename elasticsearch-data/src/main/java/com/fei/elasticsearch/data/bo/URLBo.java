@@ -26,6 +26,7 @@ public class URLBo {
     private String priceTag;
     private String descTag;
 
+    private String urlWeb;
     private String referer;
     private String userAgent;
     private String cookie;

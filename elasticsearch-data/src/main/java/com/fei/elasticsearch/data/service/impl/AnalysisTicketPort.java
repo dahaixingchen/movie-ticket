@@ -57,7 +57,7 @@ public class AnalysisTicketPort implements AnalysisTicket {
         for (int i = 0; i < goods.size(); i++) {
             TicketVo ticketVo = new TicketVo();
             JSONObject jsonObject1 = goods.getJSONObject(i);
-            ticketVo.setUrl(urlBo.getUrl());
+            ticketVo.setUrl(urlBo.getUrlWeb());
             ticketVo.setName(jsonObject1.getString("Name"));
             ticketVo.setDescribe(jsonObject1.getString("Summary"));
             ticketVo.setPrice(Double.parseDouble(jsonObject1.getString("Price")));

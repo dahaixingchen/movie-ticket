@@ -25,6 +25,7 @@ create table movie_ticket_html(
 CREATE TABLE movie_ticket_port (
   id bigint(20) NOT NULL AUTO_INCREMENT COMMENT '主键 默认自动递增',
   url varchar(1024) NOT NULL COMMENT '网页地址',
+  url_web varchar(1024) NOT NULL COMMENT '解析客户网站的url',
   referer varchar(512) DEFAULT NULL COMMENT '网址请求时候的头，表示是从哪个网址上过来的',
   user_agent text DEFAULT NULL COMMENT '发起请求端的识别',
   cookie text DEFAULT NULL COMMENT '地址的cookie值',

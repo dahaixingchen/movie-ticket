@@ -26,6 +26,7 @@
     <select id="getPortUrlBo" resultType="com.fei.elasticsearch.data.bo.URLBo">
         SELECT
             url ,
+            url_web urlWeb,
             referer,
             user_agent userAgent,
             cookie
