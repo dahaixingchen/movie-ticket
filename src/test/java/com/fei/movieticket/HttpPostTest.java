@@ -132,6 +132,36 @@ public class HttpPostTest {
         }
     }
 
+    //不带json串的post请求
+    @Test
+    public void test1111() throws IOException {
+        HttpClient httpclient = HttpClientBuilder.create().build();
+        HttpPost httpPost = new HttpPost("http://res.91kami.com/Index/Index?q=&p=1&size=20&showInStore=false");
+        httpPost.setHeader("Referer","http://shop.ajiyouhuiquan.top/");
+        httpPost.setHeader("User-Agent","Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/86.0.4240.75 Safari/537.36");
+        HttpResponse execute = httpclient.execute(httpPost);
+        HttpEntity entity = execute.getEntity();
+        if (entity != null){
+            String s = EntityUtils.toString(entity);
+            System.out.println(s);
+        }
+    }
+
+    //不带json串的post请求
+    @Test
+    public void test11111() throws IOException {
+        HttpClient httpclient = HttpClientBuilder.create().build();
+        HttpPost httpPost = new HttpPost("http://res.91kami.com/Index/Index?q=&p=1&size=20&showInStore=false");
+        httpPost.setHeader("Referer","http://shop.slc0929.top/");
+        httpPost.setHeader("User-Agent","Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/86.0.4240.75 Safari/537.36");
+        HttpResponse execute = httpclient.execute(httpPost);
+        HttpEntity entity = execute.getEntity();
+        if (entity != null){
+            String s = EntityUtils.toString(entity);
+            System.out.println(s);
+        }
+    }
+
     //带json串的post请求
     @Test
     public void test2() throws IOException {
@@ -158,7 +188,7 @@ public class HttpPostTest {
         MediaType mediaType = MediaType.parse("application/json");
         RequestBody body = RequestBody.create(mediaType, "{\"cinema\":\"猫眼\"}");
         Request request = new Request.Builder()
-                .url("http://10.3.0.52:8081/movie/ticket")
+                .url("http://localhost:8081/movie/ticket")
                 .method("POST", body)
                 .addHeader("Content-Type", "application/json")
                 .build();

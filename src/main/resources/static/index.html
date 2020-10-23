@@ -2,12 +2,63 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <title>Title</title>
 </head>
 <body>
-    <div>
-        欢迎来到优惠电影票
-    </div>
-
+<div id="app" >
+    影院：<input placeholder="如：万达" type="text" v-model="cinema" @keyup.enter = "getTickte">
+    平台：<input placeholder="如：淘票票" type="text" v-model="platform" @keyup.enter = "getTickte">
+    电影票名称：<input placeholder="如：金刚川" type="text" v-model="movieName" @keyup.enter = "getTickte">
+    地区：<input placeholder="如：上海" type="text" v-model="area" @keyup.enter = "getTickte">
+    价格：<input placeholder="如:30,表示票价在0-30元内" type="text" v-model="price" @keyup.enter = "getTickte">
+    <input type="button" value="查询"  @click="getTickte">
+    <ul  v-for="(item, idx) in ticketList"  :key="idx">
+        <li >
+            标题：{{ item.name }}
+        </li>
+        <li>
+            价格：{{ item.price }}
+        </li>
+        <li>
+            数量：{{ item.num }}
+        </li>
+        <li>
+            网址链接：{{ item.url }}
+        </li>
+        <li>
+            描述：{{ item.description }}
+        </li>
+    </ul>
+</div>
 </body>
+<script>
+    var app = new Vue({
+        el:'#app',
+        data:{
+            cinema: null,
+            platform:null,
+            movieName:null,
+            price:null,
+            area:null,
+            ticketList: [
+                {name:"",price:"",num:"",description:"",url:""}
+            ]
+        },
+        methods:{
+            getTickte:function () {
+                var that = this;
+                console.log(this.cinema)
+                console.log(that.cinema)
+                axios.post("http://localhost:8081/movie/ticket",{"cinema":that.cinema,"platform":that.platform
+                    ,"price":that.price,"area":that.area,"movieName":that.movieName})
+                    .then(function(response) {
+                        console.log(this);
+                        that.ticketList = response.data.data
+                    })
+            }
+        }
+    })
+</script>
 </html>

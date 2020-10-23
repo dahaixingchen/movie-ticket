@@ -12,7 +12,8 @@ public interface MovieTicketMapper {
      * @return java.util.List<com.fei.movieticket.bo.URLBo>
      * @date: 2020/10/7 14:43
      */
-    List<URLBo> getUrlBo();
 
     List<URLBo> getPortUrlBo();
+
+    List<URLBo> getUrlBo();
 }
