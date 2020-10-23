@@ -23,9 +23,6 @@ import java.util.List;
 @Service
 public class MovieTicketServiceImpl implements MovieTicketService {
 
-    public static final String url1 = "http://res.91kami.com/Index/Index?&q=&p=1&size=200&showInStore=false";
-    public static final String url2 = "http://kmg.kamigo.cn/link/R3UU341GE22O60QB";
-
     @Resource
     private MovieTicketMapper movieTicketMapper;
 
