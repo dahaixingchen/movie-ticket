@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>搜索索引插件</title>
+    <link rel="stylesheet" type="text/css" href="layui/css/layui.css"/>
+    <link rel="stylesheet" type="text/css" href="usteel-search/search.css"/>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<!--    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>-->
+    <script src="js/axios.min.js"></script>
+</head>
+
+<body>
+<div class="usteel-content w" id="app">
+    <div class="usteel-condition" id="usteel-condition">
+        <!-- 优钢网索引插件 -->
+        <div class="selector">
+            <div class="search-bottom display-flex">
+                <p>
+                    <span>影院</span>
+                    <input placeholder="如：万达" v-model="cinema" @keyup.enter = "getTickte" type="text" size="500">
+                </p>
+
+                <p>
+                    <span>平台</span>
+                    <input placeholder="如：淘票票" v-model="platform" @keyup.enter = "getTickte" type="text" size="500">
+                </p>
+
+                <p>
+                    <span>电影名称</span>
+                    <input placeholder="如：金刚川" v-model="movieName" @keyup.enter = "getTickte" type="text" size="500">
+                </p>
+
+                <p>
+                    <span>地区</span>
+                    <input placeholder="如：上海" type="text" v-model="area" @keyup.enter = "getTickte" size="500">
+                </p>
+                <p>
+                    <span>价格</span>
+                    <input placeholder="如:30,表示票价在0-30元内" type="text" v-model="price" @keyup.enter = "getTickte" size="500">
+                </p>
+
+                <p class="display-flex">
+                    <a class="_search" @click="getTickte">搜索</a>
+                </p>
+            </div>
+        </div>
+    </div>
+    <div class="usteel-table">
+        <p class="title">
+            <span>全部结果&gt;</span>
+        </p>
+        <section>
+            <p class="t_th">
+                <span>标题</span>
+                <span>价格</span>
+                <span>数量</span>
+                <span>描述</span>
+                <span>购买地址</span>
+            </p>
+            <p class="t_tr" href="?id=11" v-for="(item,id) in ticketList" :key="id">
+                <span class="w-1">{{ item.name }}</span>
+                <span class="w-1">{{ item.price }}</span>
+                <span class="w-1">{{ item.num }}</span>
+                <span class="w-1">{{ item.description }}</span>
+                <a class="w-1" target="_blank" :href="item.url">{{ item.url }}</a>
+            </p>
+        </section>
+        <center id="page" class="page"></center>
+    </div>
+</div>
+</body>
+
+<script type="text/javascript" src="js/jquery.min.js"></script>
+<script type="text/javascript" src="layui/layui.js" charset="utf-8"></script>
+<script type="text/javascript" src="usteel-search/search.js"></script>
+<script type="text/javascript">
+    var app = new Vue({
+        el:'#app',
+        data:{
+            cinema: null,
+            platform:null,
+            movieName:null,
+            price:null,
+            area:null,
+            ticketList: [
+                {name:"",price:"",num:"",description:"",url:""}
+            ]
+        },
+        methods:{
+            getTickte:function () {
+                var that = this;
+                console.log(this.cinema)
+                console.log(that.cinema)
+                axios.post("http://localhost:39006/movie/ticket",{"cinema":that.cinema,"platform":that.platform
+                    ,"price":that.price,"area":that.area,"movieName":that.movieName})
+                    .then(function(response) {
+                        console.log(this);
+                        that.ticketList = response.data.data
+                    })
+            }
+        }
+    })
+</script>
+
+</html>

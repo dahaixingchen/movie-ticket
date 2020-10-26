@@ -20,6 +20,7 @@ public class StartMain implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
         logger.info("数据开始入Elasticsearch");
+        movieTicketService.disposeTicketResult();
     }
 
     @Scheduled(cron = "0 */10 * * * ?")
