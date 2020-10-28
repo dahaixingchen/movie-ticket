@@ -1,6 +1,7 @@
 create table movie_ticket_html(
 	id bigint(20) NOT NULL AUTO_INCREMENT COMMENT '主键 默认自动递增',
 	url varchar(256) not null comment'网页地址',
+	buy_rule varchar(256) DEFAULT NULL comment '购买网页的规则地址',
 	big_div_class varchar(32) comment'包裹影票内容的class名称,在没有办法一下子定位到标题，价格，数量时用',
 	standby_class1 varchar(32) comment'备用字段，用于解析的时候需要多个class',
 	standby_class2 varchar(32) comment'备用字段，用于解析的时候需要多个class',
@@ -28,6 +29,7 @@ CREATE TABLE movie_ticket_port (
   id bigint(20) NOT NULL AUTO_INCREMENT COMMENT '主键 默认自动递增',
   url varchar(256) NOT NULL COMMENT '网页地址',
   url_web varchar(256) NOT NULL COMMENT '解析客户网站的url',
+  buy_rule varchar(256) DEFAULT NULL comment '购买网页的规则地址',
   referer varchar(512) DEFAULT NULL COMMENT '网址请求时候的头，表示是从哪个网址上过来的',
   user_agent text DEFAULT NULL COMMENT '发起请求端的识别',
   cookie text DEFAULT NULL COMMENT '地址的cookie值',
