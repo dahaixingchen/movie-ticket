@@ -23,6 +23,8 @@ import java.util.List;
 @Service
 public class AnalysisTicketHtmlNew implements AnalysisTicket {
     Logger logger = LoggerFactory.getLogger(AnalysisTicketHtmlNew.class);
+
+
     @Override
     public List<TicketVo> getTicket(URLBo htmlParmBo) {
 
