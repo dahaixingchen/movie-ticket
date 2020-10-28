@@ -6,6 +6,7 @@
     <select id="getUrlBo" resultType="com.fei.elasticsearch.data.bo.URLBo">
         SELECT
             url ,
+            buy_rule buyRule,
             big_div_class bigDivClass,
             standby_class1 standbyClass1,
             standby_class2 standbyClass2,
@@ -26,6 +27,7 @@
     <select id="getPortUrlBo" resultType="com.fei.elasticsearch.data.bo.URLBo">
         SELECT
             url ,
+            buy_rule buyRule,
             url_web urlWeb,
             referer,
             user_agent userAgent,

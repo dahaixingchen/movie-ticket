@@ -1,6 +1,8 @@
 package com.fei.elasticsearch.data.bo;
 
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 /**
  * @ClassName: TicketVo
@@ -18,8 +20,11 @@ public class TicketVo {
     private Double price;
     //数量
     private Integer num;
-    //优惠券URL
+    //电影票URL
     private String url;
+
+    //电影票URL
+    private String buyRule;
 
     public TicketVo(){
         this.price = 0d;

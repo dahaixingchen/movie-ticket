@@ -11,6 +11,7 @@ import org.jsoup.select.Elements;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
+import java.sql.Ref;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -38,6 +39,7 @@ public class AnalysisTicketHTML implements AnalysisTicket {
         try {
             Document document = Jsoup.connect(htmlParmBo.getUrl()).get();
             //默认最外层的最多一步就能解析到位
+
             if (htmlParmBo.getBigDivClass() != null) {
                 //用class解析
                 Elements titles = document.getElementsByAttributeValue("class", htmlParmBo.getBigDivClass());
@@ -47,8 +49,10 @@ public class AnalysisTicketHTML implements AnalysisTicket {
                 } else {
                     for (int i = 0; i < titles.size(); i++) {
                         TicketVo ticketVo = new TicketVo();
+                        ArrayList<TicketVo> ticketVos1 = new ArrayList<>();
                         //解析具体的影票属性
-                        this.titleDetail(ticketVo, htmlParmBo, titles, i);
+                        this.titleDetail(ticketVos1, htmlParmBo, titles, i);
+//                        this.titleDetail(ticketVo, htmlParmBo, titles, i);
                         ticketVos.add(ticketVo);
 
                     }
@@ -86,6 +90,13 @@ public class AnalysisTicketHTML implements AnalysisTicket {
         Elements num = new Elements();
         Elements price = new Elements();
         Elements desc = new Elements();
+        String href = null;
+
+        if (htmlParmBo.getBuyRule() != null){
+            Elements a = elements.get(0).select("a");
+            String attr = elements.get(0).select("a").attr("href");
+            System.out.println();
+        }
         //按照class解析
         if (htmlParmBo.getTitleClass() != null) {
             titles = elements.get(0).getElementsByAttributeValue("class", htmlParmBo.getTitleClass());
@@ -112,6 +123,8 @@ public class AnalysisTicketHTML implements AnalysisTicket {
         if (htmlParmBo.getDescTag() != null) {
             desc = elements.get(0).getElementsByTag(htmlParmBo.getDescTag());
         }
+
+        //给ticketVos实体赋值
         if (ticketVos.size() == 0 && titles.size() == price.size() && titles.size() == num.size() && titles.size() == desc.size()) {
             for (int i = 0; i < titles.size(); i++) {
                 TicketVo ticketVo = new TicketVo();
@@ -174,11 +187,19 @@ public class AnalysisTicketHTML implements AnalysisTicket {
      * @Description: 具体的影票属性解析(需要两步解析得到)
      * @date: 2020/10/8 17:17
      */
-    private void titleDetail(TicketVo ticketVo, URLBo htmlParmBo, Elements elements, int i) {
+    private void titleDetail(List<TicketVo> ticketVos, URLBo htmlParmBo, Elements elements, int i) {
         Elements titles = new Elements();
         Elements num = new Elements();
         Elements price = new Elements();
         Elements desc = new Elements();
+        String href = null;
+
+
+        //购买地址赋值
+        if (htmlParmBo.getBuyRule() != null){
+            href = elements.get(i).select("a").attr("href");
+        }
+
         //按照class解析
         if (htmlParmBo.getTitleClass() != null) {
             titles = elements.get(i).getElementsByAttributeValue("class", htmlParmBo.getTitleClass());
@@ -244,28 +265,8 @@ public class AnalysisTicketHTML implements AnalysisTicket {
                 }
             }
         }
-        if (titles.size() == price.size()) {
-            for (int j = 0; j < titles.size(); j++) {
-                ticketVo.setName(titles.get(j).text());
-                Matcher matcher = this.getMatcher(price.get(j));
-                if (matcher.find()) {
-                    ticketVo.setPrice(Double.valueOf(matcher.group(1)));
-                }
-            }
-        }
-        if (titles.size() == price.size() && titles.size() == num.size()) {
-            for (int j = 0; j < titles.size(); j++) {
-                ticketVo.setName(titles.get(j).text());
-                Matcher priceMatcher = this.getMatcher(price.get(j));
-                if (priceMatcher.find()) {
-                    ticketVo.setPrice(Double.valueOf(priceMatcher.group(1)));
-                }
-                Matcher numMatcher = this.getMatcher(num.get(j));
-                if (numMatcher.find()) {
-                    ticketVo.setNum(Integer.valueOf(numMatcher.group(1)));
-                }
-            }
-        }
+
+        //给实例赋值,这个其实就只有一个
         if (titles.size() == price.size() && titles.size() == num.size() && titles.size() == desc.size()) {
             for (int j = 0; j < titles.size(); j++) {
                 ticketVo.setName(titles.get(j).text());
@@ -279,6 +280,33 @@ public class AnalysisTicketHTML implements AnalysisTicket {
                 }
                 ticketVo.setDescribe(desc.get(j).text());
             }
+        }
+
+        if (titles.size() == price.size() && titles.size() == num.size()) {
+            for (int j = 0; j < titles.size(); j++) {
+                ticketVo.setName(titles.get(j).text());
+                Matcher priceMatcher = this.getMatcher(price.get(j));
+                if (priceMatcher.find()) {
+                    ticketVo.setPrice(Double.valueOf(priceMatcher.group(1)));
+                }
+                Matcher numMatcher = this.getMatcher(num.get(j));
+                if (numMatcher.find()) {
+                    ticketVo.setNum(Integer.valueOf(numMatcher.group(1)));
+                }
+            }
+        }
+
+        if (titles.size() == price.size()) {
+            for (int j = 0; j < titles.size(); j++) {
+                ticketVo.setName(titles.get(j).text());
+                Matcher matcher = this.getMatcher(price.get(j));
+                if (matcher.find()) {
+                    ticketVo.setPrice(Double.valueOf(matcher.group(1)));
+                }
+            }
+        }
+        if (htmlParmBo.getBuyRule() != null){
+            ticketVo.setBuyRule(htmlParmBo.getBuyRule() + href);
         }
         ticketVo.setUrl(htmlParmBo.getUrl());
     }

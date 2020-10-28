@@ -11,6 +11,7 @@ import lombok.Data;
 @Data
 public class URLBo {
     private String url;
+    private String buyRule;
     private String bigDivClass;
     private String standbyClass1;
     private String standbyClass2;
