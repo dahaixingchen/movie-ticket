@@ -4,9 +4,8 @@
     <modelVersion>4.0.0</modelVersion>
     <packaging>pom</packaging>
     <modules>
-        <module>data-elasticsearch</module>
-        <module>data-elasticsearch</module>
-        <module>data-elasticsearch</module>
+        <module>elasticsearch-data</module>
+        <module>search-ticket</module>
     </modules>
     <parent>
         <groupId>org.springframework.boot</groupId>
