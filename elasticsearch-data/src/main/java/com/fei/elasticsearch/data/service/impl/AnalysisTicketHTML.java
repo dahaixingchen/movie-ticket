@@ -51,7 +51,7 @@ public class AnalysisTicketHTML implements AnalysisTicket {
                         TicketVo ticketVo = new TicketVo();
                         ArrayList<TicketVo> ticketVos1 = new ArrayList<>();
                         //解析具体的影票属性
-                        this.titleDetail(ticketVos1, htmlParmBo, titles, i);
+                        this.titleDetail(ticketVos1,titles, htmlParmBo);
 //                        this.titleDetail(ticketVo, htmlParmBo, titles, i);
                         ticketVos.add(ticketVo);
 
@@ -95,7 +95,9 @@ public class AnalysisTicketHTML implements AnalysisTicket {
         if (htmlParmBo.getBuyRule() != null){
             Elements a = elements.get(0).select("a");
             String attr = elements.get(0).select("a").attr("href");
-            System.out.println();
+            String href1 = a.get(0).attr("href");
+//            String href2 = a.get(1).attr("href");
+           System.out.println();
         }
         //按照class解析
         if (htmlParmBo.getTitleClass() != null) {
@@ -187,7 +189,7 @@ public class AnalysisTicketHTML implements AnalysisTicket {
      * @Description: 具体的影票属性解析(需要两步解析得到)
      * @date: 2020/10/8 17:17
      */
-    private void titleDetail(List<TicketVo> ticketVos, URLBo htmlParmBo, Elements elements, int i) {
+    private void titleDetail(TicketVo ticketVo, URLBo htmlParmBo, Elements elements, int i) {
         Elements titles = new Elements();
         Elements num = new Elements();
         Elements price = new Elements();

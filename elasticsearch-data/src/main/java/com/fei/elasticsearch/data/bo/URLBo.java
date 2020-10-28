@@ -13,8 +13,8 @@ public class URLBo {
     private String url;
     private String buyRule;
     private String bigDivClass;
-    private String standbyClass1;
-    private String standbyClass2;
+    private String bigOtherLabel;
+    private String bigOtherLabelType;
     private String titleClass;
     private String numClass;
     private String priceClass;

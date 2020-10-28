@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.fei.elasticsearch.data.bo.TicketVo;
 import com.fei.elasticsearch.data.bo.URLBo;
 import com.fei.elasticsearch.data.mapper.MovieTicketMapper;
+import com.fei.elasticsearch.data.service.AnalysisTicket;
 import com.fei.elasticsearch.data.service.MovieTicketService;
 import com.fei.elasticsearch.data.util.ConnectES;
 import org.elasticsearch.action.admin.indices.create.CreateIndexRequestBuilder;
@@ -34,10 +35,13 @@ public class MovieTicketServiceImpl implements MovieTicketService {
     private MovieTicketMapper movieTicketMapper;
 
     @Autowired
-    private AnalysisTicketHTML analysisTicketHTML;
+    private AnalysisTicket analysisTicketHTML;
 
     @Autowired
-    private AnalysisTicketPort analysisTicketPort;
+    private AnalysisTicket analysisTicketHtmlNew;
+
+    @Autowired
+    private AnalysisTicket analysisTicketPort;
 
     @Override
     public void disposeTicketResult() {
