@@ -4,6 +4,8 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import sun.java2d.pipe.SpanIterator;
 
+import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 
 /**
@@ -14,12 +16,18 @@ import java.io.IOException;
  **/
 public class URLTest {
     public static void main(String[] args) throws IOException {
-        for (int i = 1000000; i < 10000000; i++) {
+        File file = new File("C:\\movie\\movie.txt");
+        FileWriter out = new FileWriter(file,true);
+        for (int i = 1057900; i < 2057900; i++) {
             Document document = Jsoup.connect("http://fk.gofaka.cn/fkpt/index.php/Home/index/index/uid/" + Integer.toString(i)).get();
             if ("链接可能失效或不存在，请重新获取。".equals(document.getElementsByTag("title").text())){
             }else {
+
                 System.out.println("http://fk.gofaka.cn/fkpt/index.php/Home/index/index/uid/" + Integer.toString(i));
+                out.write("http://fk.gofaka.cn/fkpt/index.php/Home/index/index/uid/"
+                        + Integer.toString(i) + "\n");
             }
         }
+        out.close();
     }
 }

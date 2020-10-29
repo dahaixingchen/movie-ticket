@@ -48,12 +48,12 @@ public class URLTest1 {
     public static void main(String[] args) {
         URLTest1 test = new URLTest1();
         List<String> tmpList = new ArrayList<String>();
-        for (int i = 1000000; i < 10000000; i++) {
+        for (int i = 1057900; i < 2100000; i++) {
             tmpList.add("http://fk.gofaka.cn/fkpt/index.php/Home/index/index/uid/" + Integer.toString(i));
         }
 
         int length = tmpList.size();
-        int num = 1000; //初始线程数
+        int num = 10; //初始线程数
 
         //启动多线程
         if(num > length){
