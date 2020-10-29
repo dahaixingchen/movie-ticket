@@ -8,6 +8,7 @@
             url ,
             buy_rule buyRule,
             big_div_class bigDivClass,
+            big_div_class2 bigDivClass2,
             big_other_label bigOtherLabel,
             big_other_label_type bigOtherLabelType,
             title_class titleClass,

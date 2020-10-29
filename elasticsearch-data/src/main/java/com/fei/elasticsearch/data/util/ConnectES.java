@@ -22,15 +22,15 @@ public class ConnectES {
 
         Settings settings = Settings.builder().put("cluster.name", "movie-title").build();
         TransportClient client = null;
-        try {
-            client = new PreBuiltTransportClient(settings)
-//                    .addTransportAddress(new TransportAddress(InetAddress.getByName("47.112.115.39"), 9300));
-                    .addTransportAddress(new TransportAddress(InetAddress.getByName("node01"), 9300));
-
-        } catch (UnknownHostException e) {
-            logger.error("连接elasticsearch失败，请检查ES启动是否正常");
-            e.printStackTrace();
-        }
+//        try {
+//            client = new PreBuiltTransportClient(settings)
+////                    .addTransportAddress(new TransportAddress(InetAddress.getByName("47.112.115.39"), 9300));
+//                    .addTransportAddress(new TransportAddress(InetAddress.getByName("node01"), 9300));
+//
+//        } catch (UnknownHostException e) {
+//            logger.error("连接elasticsearch失败，请检查ES启动是否正常");
+//            e.printStackTrace();
+//        }
         return client;
     }
 }

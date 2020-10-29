@@ -13,6 +13,7 @@ public class URLBo {
     private String url;
     private String buyRule;
     private String bigDivClass;
+    private String bigDivClass2;
     private String bigOtherLabel;
     private String bigOtherLabelType;
     private String titleClass;

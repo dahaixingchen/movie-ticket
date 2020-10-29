@@ -10,11 +10,10 @@ public interface URLData {
 
     /**
      * @Description:
-      * @param ticketVos
      * @param elements
      * @param htmlParmBo
      * @return void
      * @date: 2020/10/28 19:09
      */
-    public void analyseUrlData(List<TicketVo> ticketVos, Elements elements, URLBo htmlParmBo);
+    public List<TicketVo> analyseUrlData( Elements elements, URLBo htmlParmBo);
 }

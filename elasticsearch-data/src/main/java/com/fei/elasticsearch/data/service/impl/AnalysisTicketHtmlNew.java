@@ -3,14 +3,18 @@ package com.fei.elasticsearch.data.service.impl;
 import com.fei.elasticsearch.data.bo.TicketVo;
 import com.fei.elasticsearch.data.bo.URLBo;
 import com.fei.elasticsearch.data.service.AnalysisTicket;
+import com.fei.elasticsearch.data.service.URLData;
 import org.apache.commons.lang.StringUtils;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,6 +28,11 @@ import java.util.List;
 public class AnalysisTicketHtmlNew implements AnalysisTicket {
     Logger logger = LoggerFactory.getLogger(AnalysisTicketHtmlNew.class);
 
+    @Autowired
+    private URLData URLDataFromClass;
+
+    @Autowired
+    private URLDataFromTag URLDataFromTag;
 
     @Override
     public List<TicketVo> getTicket(URLBo htmlParmBo) {
@@ -41,38 +50,25 @@ public class AnalysisTicketHtmlNew implements AnalysisTicket {
             if (htmlParmBo.getBigDivClass() != null) {
                 //用class解析
                 elements = document.getElementsByAttributeValue("class", htmlParmBo.getBigDivClass());
-                this.classAnalyse(ticketVos,elements,htmlParmBo);
+                if (htmlParmBo.getBigDivClass2() != null){
+                    Elements elementsByClass = document.getElementsByClass(htmlParmBo.getBigDivClass2());
+                    elements.addAll(elementsByClass);
+                }
+                ticketVos = URLDataFromClass.analyseUrlData(elements,htmlParmBo);
             } else if (htmlParmBo.getBigDivTag() != null) {
                 //用tag解析
                 elements = document.getElementsByTag(htmlParmBo.getBigDivTag());
-                this.tagAnalyse(ticketVos,elements,htmlParmBo);
+                ticketVos = URLDataFromTag.analyseUrlData(elements, htmlParmBo);
             }else if (htmlParmBo.getBigOtherLabel() != null) {
                 //用其他的标签解析
                 elements = document.getElementsByAttributeValue(htmlParmBo.getBigOtherLabel(), htmlParmBo.getBigOtherLabelType());
-                this.otherLableAnalyse(ticketVos,elements,htmlParmBo);
+                ticketVos = URLDataFromTag.analyseUrlData(elements,htmlParmBo);
             }else {
                 throw new IllegalArgumentException("解析地址失败，对应的url：" + htmlParmBo.getUrl());
             }
         }catch (Exception e){
             e.printStackTrace();
         }
-        return null;
+        return ticketVos;
     }
-
-
-    //根据class解析
-    private void classAnalyse(List<TicketVo> ticketVos, Elements elements, URLBo htmlParmBo) {
-
-    }
-
-    //根据tag解析
-    private void tagAnalyse(List<TicketVo> ticketVos, Elements elements, URLBo htmlParmBo) {
-
-    }
-
-    //用其他的标签解析
-    private void otherLableAnalyse(List<TicketVo> ticketVos, Elements elements, URLBo htmlParmBo) {
-
-    }
-
 }
