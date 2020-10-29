@@ -61,7 +61,11 @@ public class AnalysisTicketHtmlNew implements AnalysisTicket {
                 ticketVos = URLDataFromTag.analyseUrlData(elements, htmlParmBo);
             }else if (htmlParmBo.getBigOtherLabel() != null) {
                 //用其他的标签解析
-                elements = document.getElementsByAttributeValue(htmlParmBo.getBigOtherLabel(), htmlParmBo.getBigOtherLabelType());
+                String[] lableType = htmlParmBo.getBigOtherLabelType().split(";");
+                for (String type : lableType) {
+                    Elements elements1 = document.getElementsByAttributeValue(htmlParmBo.getBigOtherLabel(), type);
+                    elements.addAll(elements1);
+                }
                 ticketVos = URLDataFromTag.analyseUrlData(elements,htmlParmBo);
             }else {
                 throw new IllegalArgumentException("解析地址失败，对应的url：" + htmlParmBo.getUrl());

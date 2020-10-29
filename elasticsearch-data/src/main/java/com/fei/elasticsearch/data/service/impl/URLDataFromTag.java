@@ -2,6 +2,7 @@ package com.fei.elasticsearch.data.service.impl;
 
 import com.fei.elasticsearch.data.bo.TicketVo;
 import com.fei.elasticsearch.data.bo.URLBo;
+import com.fei.elasticsearch.data.common.AnalyseData;
 import com.fei.elasticsearch.data.service.URLData;
 import com.fei.elasticsearch.data.util.NumberUtil;
 import org.jsoup.nodes.Element;
@@ -30,7 +31,7 @@ public class URLDataFromTag implements URLData {
         Elements buyUrlElements = new Elements();
         for (Element element : elements) {
             TicketVo ticketVo = new TicketVo();
-            //如果价格，数量同事都为null，就认定它是一个标签得到所有的数据的
+            //如果价格，数量同事都为null，就认定它是一个标签（class，功能没有实现）得到所有的数据的
             if (htmlParmBo.getTitleTag() != null && htmlParmBo.getPriceTag() == null && htmlParmBo.getNumTag() == null) {
                 titleElsments = element.getElementsByTag(htmlParmBo.getTitleTag());
                 for (int i1 = 0; i1 < titleElsments.size(); i1++) {
@@ -57,10 +58,12 @@ public class URLDataFromTag implements URLData {
                     }
                 }
             }else {
-                //多个标签分别得到price和num或其他字段
+                //多个class（标签，没有实现）分别得到price和num或其他字段
+                ticketVo = AnalyseData.analyseClassOrTag(htmlParmBo, element);
             }
             ticketVos.add(ticketVo);
         }
         return ticketVos;
     }
+
 }
