@@ -23,7 +23,7 @@ public class StartMain implements CommandLineRunner {
         movieTicketService.disposeTicketResult();
     }
 
-    @Scheduled(cron = "0 */10 * * * ?")
+    @Scheduled(cron = "0 */59 * * * ?")
     public void test(){
         logger.info("数据开始入Elasticsearch");
         movieTicketService.disposeTicketResult();

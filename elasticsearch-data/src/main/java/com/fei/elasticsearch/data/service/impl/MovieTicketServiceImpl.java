@@ -57,8 +57,8 @@ public class MovieTicketServiceImpl implements MovieTicketService {
             List<TicketVo> ticket = analysisTicketPort.getTicket(urlBo);
             ticketVos.addAll(ticket);
         });
-//        存入elasticsearch中
-//        this.storeData(ticketVos);
+        //存入elasticsearch中
+        this.storeData(ticketVos);
     }
 
     /**

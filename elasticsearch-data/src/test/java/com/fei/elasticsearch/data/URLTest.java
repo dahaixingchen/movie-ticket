@@ -17,16 +17,24 @@ import java.io.IOException;
 public class URLTest {
     public static void main(String[] args) throws IOException {
         File file = new File("C:\\movie\\movie.txt");
-        FileWriter out = new FileWriter(file,true);
-        for (int i = 1057900; i < 2057900; i++) {
-            Document document = Jsoup.connect("http://fk.gofaka.cn/fkpt/index.php/Home/index/index/uid/" + Integer.toString(i)).get();
-            if ("链接可能失效或不存在，请重新获取。".equals(document.getElementsByTag("title").text())){
-            }else {
+        FileWriter out = new FileWriter(file, true);
 
-                System.out.println("http://fk.gofaka.cn/fkpt/index.php/Home/index/index/uid/" + Integer.toString(i));
-                out.write("http://fk.gofaka.cn/fkpt/index.php/Home/index/index/uid/"
-                        + Integer.toString(i) + "\n");
+
+        for (int i = 1060228; i < 2057900; i++) {
+            try {
+                Document document = Jsoup.connect("http://fk.gofaka.cn/fkpt/index.php/Home/index/index/uid/" + Integer.toString(i)).get();
+                if ("链接可能失效或不存在，请重新获取。".equals(document.getElementsByTag("title").text())) {
+                } else {
+
+                    out.write("http://fk.gofaka.cn/fkpt/index.php/Home/index/index/uid/"
+                            + Integer.toString(i) + "\n");
+                    System.out.println("http://fk.gofaka.cn/fkpt/index.php/Home/index/index/uid/" + Integer.toString(i));
+                    out.flush();
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
             }
+
         }
         out.close();
     }
