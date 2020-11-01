@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.fei.search.ticket.mapper.UserMapper">
+
+
+    <insert id="addUser" parameterType="com.fei.search.ticket.bo.UserBo">
+        insert into user(
+            name,
+            phone,
+            password
+        )values (
+            #{name},
+            #{phone},
+            #{password}
+        )
+    </insert>
+    <update id="updatePassword">
+        update user
+        set password = #{password}
+        where phone = #{phone}
+    </update>
+    <select id="doLogin" resultType="com.fei.search.ticket.bo.UserBo">
+        select
+            id,
+            name,
+            is_vip isVip
+        from user
+        where password = #{password} and phone = #{phone} or name = #{name}
+
+    </select>
+
+<!--    校验手机号是否重复-->
+    <select id="queryPhone" resultType="java.lang.String">
+        select
+        phone
+        from user
+        where phone = #{phone} or name = #{name}
+    </select>
+</mapper>

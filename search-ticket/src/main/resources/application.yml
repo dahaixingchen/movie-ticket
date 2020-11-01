@@ -1,2 +1,5 @@
 server:
   port: 39006
+spring:
+  profiles:
+    active: online

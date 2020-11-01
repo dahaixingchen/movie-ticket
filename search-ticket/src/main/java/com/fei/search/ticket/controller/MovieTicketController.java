@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
 /**
@@ -27,6 +29,13 @@ public class MovieTicketController {
 
     @Autowired
     private MovieTicketService movieTicketServiceImpl;
+
+    @PostMapping("/search")
+    public ApiMessage search(HttpServletRequest request, HttpServletResponse response
+            ,@RequestBody QueryConditionBo queryConditionBo){
+
+        return null;
+    }
 
     @PostMapping("/ticket")
     public ApiMessage<TicketVo> ticket(@RequestBody QueryConditionBo queryConditionBo) {

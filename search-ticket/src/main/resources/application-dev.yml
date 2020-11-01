@@ -1,0 +1,16 @@
+spring:
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://47.112.115.39:3306/test?useUnicode=true&characterEncoding=utf-8&useSSL=false&autoReconnect=true&allowMultiQueries=true
+    username: chengfei
+    password: cheng2108638
+  data:
+    elasticsearch:
+      cluster-name: movie-title
+      cluster-nodes: 47.112.115.39:9300
+      repositories:
+        enabled: true
+
+mybatis:
+  mapper-locations: classpath:mapper/*Mapper.xml
+  type-aliases-package: com.xinwei.teachingplan.mapper

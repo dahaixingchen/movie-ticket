@@ -28,7 +28,8 @@ public class URLTest1 {
         }
 
         public void run() {
-            list.forEach(a->{
+            List<String> list1 = list.subList(startIndex, endIndex);
+            list1.forEach(a->{
                 try {
                     Document document = Jsoup.connect(a).get();
                     if ("链接可能失效或不存在，请重新获取。".equals(document.getElementsByTag("title").text())){
@@ -39,8 +40,7 @@ public class URLTest1 {
                     e.printStackTrace();
                 }
             });
-            List<String> subList = list.subList(startIndex, endIndex);
-            System.out.println(threadName+"处理了"+subList.size()+"条！startIndex:"+startIndex+"|endIndex:"+endIndex);
+            System.out.println(threadName+"处理了"+list1.size()+"条！startIndex:"+startIndex+"|endIndex:"+endIndex);
         }
 
     }
@@ -53,7 +53,7 @@ public class URLTest1 {
         }
 
         int length = tmpList.size();
-        int num = 10; //初始线程数
+        int num = 10000; //初始线程数
 
         //启动多线程
         if(num > length){

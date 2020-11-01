@@ -1,5 +1,7 @@
 package com.fei.search.ticket.util;
 
+import com.fei.search.ticket.bo.UserBo;
+
 /**
   * @Date: 2020/6/22 20:06
   * @Description: 响应体
@@ -19,6 +21,7 @@ public class ApiMessage<T> {
     private String errorCode;
 
     private Integer dataSize;
+
 
     public Integer getDataSize() {
         return dataSize;
@@ -71,13 +74,13 @@ public class ApiMessage<T> {
         this.data = data;
     }
 
-//    public static ApiMessage success(String message) {
-//        return new ApiMessage(DateTimeUtil.initCurrentTime(), SUCCESS, message);
-//    }
-//
-//    public static ApiMessage success(String message, Object data) {
-//        return new ApiMessage(DateTimeUtil.initCurrentTime(), SUCCESS, message, data);
-//    }
+    public static ApiMessage success(String message) {
+        return new ApiMessage(DateTimeUtil.initCurrentTime(), SUCCESS, message);
+    }
+
+    public static ApiMessage success(String message, Object data) {
+        return new ApiMessage(DateTimeUtil.initCurrentTime(), SUCCESS, message, data);
+    }
 
     public static ApiMessage success(String message,Integer dataSize, Object data) {
         return new ApiMessage(DateTimeUtil.initCurrentTime(), SUCCESS, message,dataSize, data);

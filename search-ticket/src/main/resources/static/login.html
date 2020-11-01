@@ -1,0 +1,63 @@
+
+<html>
+<!DOCTYPE html>
+<html lang="en" class="no-js">
+
+<head>
+
+    <meta charset="utf-8">
+    <title>登录(Login)</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="assets/css/reset.css">
+    <link rel="stylesheet" href="assets/css/supersized.css">
+    <link rel="stylesheet" href="assets/css/style.css">
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script src="js/axios.min.js"></script>
+
+</head>
+
+<body>
+
+<div class="page-container" id="app">
+    <h1>登录(Login)</h1>
+    <div action="" method="post">
+        <input type="text" name="username" class="name" v-model = "name" placeholder="请输入您的用户名！">
+        <input type="password" name="password" class="password" v-model = "password" placeholder="请输入您的用户密码！">
+<!--        <input type="Captcha" class="Captcha" name="Captcha" placeholder="请输入验证码！">-->
+        <button type="submit" class="submit_button" @click="login">登录</button>
+        <div class="error"><span>+</span></div>
+    </div>
+    <div class="connect">
+        <input type="button" class="submit_button" value="注册" onclick='window.open("register.html")'></input>
+    </div>
+</div>
+
+<script type="text/javascript">
+    var app = new Vue({
+        el:'#app',
+        data:{
+            name: null,
+            password:null,
+            message:null
+        },
+        methods:{
+            login:function () {
+                var that = this;
+                axios.post("http://localhost:39006/user/login",{"name":that.name,"password":that.password})
+                    .then(function(response) {
+                        console.log(response);
+                        that.message = response.message
+                    })
+            }
+        }
+    })
+</script>
+
+</body>
+
+</html>
+
