@@ -57,15 +57,20 @@
                 <span>标题</span>
                 <span>价格</span>
                 <span>数量</span>
-                <span>描述</span>
-                <span>购买地址</span>
+                <span>描述</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <a>网页地址</a>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <a>购买地址</a>
             </p>
             <p class="t_tr" href="?id=11" v-for="(item,id) in ticketList" :key="id">
                 <span class="w-1">{{ item.name }}</span>
                 <span class="w-1">{{ item.price }}</span>
                 <span class="w-1">{{ item.num }}</span>
-                <span class="w-1">{{ item.description }}</span>
-                <a class="w-1" target="_blank" :href="item.url">{{ item.url }}</a>
+                <span class="w-1">{{ item.description }}</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <a class="w-1" target="_blank" :href="item.url">网页地址</a>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+                <a class="w-1" target="_blank" :href="item.buyRule">购买地址</a>
             </p>
         </section>
         <center id="page" class="page"></center>
@@ -86,7 +91,7 @@
             price:null,
             area:null,
             ticketList: [
-                {name:"",price:"",num:"",description:"",url:""}
+                {name:"",price:"",num:"",description:"",url:"",buyRule:null}
             ]
         },
         methods:{
@@ -99,6 +104,7 @@
                     .then(function(response) {
                         console.log(this);
                         that.ticketList = response.data.data
+                        console.log(that.ticketList)
                     })
             }
         }

@@ -20,6 +20,8 @@ public class TicketVo {
     private Integer num;
     //优惠券URL
     private String url;
+    //购买的地址
+    private String buyRule;
 
     public TicketVo(){
         this.price = 0d;
