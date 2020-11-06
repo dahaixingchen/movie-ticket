@@ -24,7 +24,7 @@ public class StartMain implements CommandLineRunner {
         logger.info("数据收集结束");
     }
 
-    @Scheduled(cron = "0 */59 * * * ?")
+    @Scheduled(cron = "0 0 */6 *  * ?")
     public void test(){
         logger.info("数据开始入Elasticsearch");
         movieTicketService.disposeTicketResult();
