@@ -44,6 +44,16 @@ public class AnalysisTicketPort implements AnalysisTicket {
             e.printStackTrace();
         }
         //解析得到的数据，它是一个json串
+        if (urlBo.getMark() == null){
+            this.url91(urlBo, dataJson, ticketVos);
+        }else if (urlBo.getMark() != null && !"".equals(urlBo.getMark())
+                && "qianmu".equals(urlBo.getMark())){
+        }
+        return ticketVos;
+    }
+
+
+    private void url91(URLBo urlBo, String dataJson, List<TicketVo> ticketVos) {
         JSONObject jsonObject = JSONObject.parseObject(dataJson);
         JSONObject data = jsonObject.getJSONObject("Data");
         JSONObject stockNumsDict = data.getJSONObject("StockNumsDict");
@@ -65,6 +75,5 @@ public class AnalysisTicketPort implements AnalysisTicket {
             ticketVo.setNum((Integer)stockNumsDict.get(spId));
             ticketVos.add(ticketVo);
         }
-        return ticketVos;
     }
 }

@@ -35,6 +35,7 @@ CREATE TABLE movie_ticket_port (
   user_agent text DEFAULT NULL COMMENT '发起请求端的识别',
   cookie text DEFAULT NULL COMMENT '地址的cookie值',
   buy_rule varchar(256) comment'购买网页的规则，null表示没有购买的规则',
+  mark varchar(20) COMMENT '网站标识，为null的是91网站的识别方式',
   create_time timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   update_time timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
   unique(url_web),

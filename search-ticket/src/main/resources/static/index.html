@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>电影抽</title>
+    <title>影票搜索神器</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
     <link rel="stylesheet" type="text/css" href="layui/css/layui.css"/>
     <link rel="stylesheet" type="text/css" href="usteel-search/search.css"/>
@@ -51,6 +51,10 @@
     <div class="usteel-table">
         <p class="title">
             <span>全部结果&gt;</span>
+            <span style="color:red;font-size:20px;">注意：如果购买地址不能跳转的话，就复制标题，然后点击网页地址，到打开的网页上查询
+                （一般网站，Ctrl+f，打开网站搜索框，然后把标题放到搜索框中）</span>
+            <br>
+            <span>如有疑问请添加客服微信：muyeafei_88，备份，网站的问题</span>
         </p>
         <section>
             <p class="t_th">
@@ -64,7 +68,7 @@
             </p>
             <p class="t_tr" href="?id=11" v-for="(item,id) in ticketList" :key="id">
                 <span class="w-1">{{ item.name }}</span>
-                <span class="w-1">{{ item.price }}</span>
+                <span class="w-1">¥{{ item.price }}</span>
                 <span class="w-1">{{ item.num }}</span>
                 <span class="w-1">{{ item.description }}</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                 <a class="w-1" target="_blank" :href="item.url">网页地址</a>

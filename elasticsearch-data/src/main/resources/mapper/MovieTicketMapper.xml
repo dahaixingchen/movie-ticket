@@ -32,7 +32,8 @@
             url_web urlWeb,
             referer,
             user_agent userAgent,
-            cookie
+            cookie,
+            mark
         FROM
             movie_ticket_port;
     </select>

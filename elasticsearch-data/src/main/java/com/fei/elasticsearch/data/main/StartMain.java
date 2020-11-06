@@ -21,6 +21,7 @@ public class StartMain implements CommandLineRunner {
     public void run(String... args) throws Exception {
         logger.info("数据开始入Elasticsearch");
         movieTicketService.disposeTicketResult();
+        logger.info("数据收集结束");
     }
 
     @Scheduled(cron = "0 */59 * * * ?")

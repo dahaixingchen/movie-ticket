@@ -32,4 +32,6 @@ public class URLBo {
     private String referer;
     private String userAgent;
     private String cookie;
+    private String mark;
+
 }

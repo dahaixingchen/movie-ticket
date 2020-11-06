@@ -49,7 +49,6 @@ public class MovieTicketServiceImpl implements MovieTicketService {
         List<URLBo> portUrls = movieTicketMapper.getPortUrlBo();
         List<TicketVo> ticketVos = new ArrayList<>();
         urls.forEach(urlBo->{
-//            List<TicketVo> ticket = analysisTicketHTML.getTicket(urlBo);
             List<TicketVo> ticket = analysisTicketHtmlNew.getTicket(urlBo);
             ticketVos.addAll(ticket);
         });
