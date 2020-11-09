@@ -34,9 +34,6 @@ public class UserServiceImpl implements UserService {
         if (user.getPassword() == null || "".equals(user.getPassword())) {
             return "请填写密码";
         }
-        if (user.getConfirmPassword() == null || "".equals(user.getConfirmPassword())) {
-            return "请填写确认密码";
-        }
         user.setPassword(StringUtil.StringInMd5(user.getPassword()));
         //校验手机号是否重复
         String phoneUser = userMapper.queryPhone(user);

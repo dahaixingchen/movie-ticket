@@ -32,7 +32,7 @@
         <div class="error"><span>+</span></div>
     </div>
     <div class="connect">
-        <input type="button" class="submit_button" value="注册" onclick='window.open("register.html")'></input>
+        <button type="button" class="submit_button" onclick='window.open("register.html","_self")'>注册</button>
     </div>
 </div>
 
@@ -42,16 +42,29 @@
         data:{
             name: null,
             password:null,
-            message:null
+            message:null,
+            status:null
         },
         methods:{
             login:function () {
                 var that = this;
-                axios.post("http://localhost:39006/user/login",{"name":that.name,"password":that.password})
+                // axios.post("http://localhost:39006/user/login",{"name":that.name,"password":that.password})
+                axios.post("http://47.112.115.39:39006/user/login",{"name":that.name,"password":that.password})
                     .then(function(response) {
                         console.log(response);
-                        that.message = response.message
+                        that.message = response.data.message
+                        that.status = response.data.status
+                        if (that.status == 200){
+                            console.log("登录成功")
+                            that.open_win();
+                        }else {
+                            alert(that.message)
+                        }
                     })
+            },
+            open_win:function () {
+                // window.open("http://localhost:39006/index.html","_self")
+                window.open("http://47.112.115.39:39006/index.html","_self")
             }
         }
     })

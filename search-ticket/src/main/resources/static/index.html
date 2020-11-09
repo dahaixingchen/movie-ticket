@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <title>影票搜索神器</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=no">
     <link rel="stylesheet" type="text/css" href="layui/css/layui.css"/>
     <link rel="stylesheet" type="text/css" href="usteel-search/search.css"/>
     <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
@@ -101,13 +101,17 @@
         methods:{
             getTickte:function () {
                 var that = this;
-                console.log(this.cinema)
-                console.log(that.cinema)
-                axios.post("http://localhost:39006/movie/ticket",{"cinema":that.cinema,"platform":that.platform
+                console.log("this.cinema 的内容"+this.cinema)
+                console.log("that.cinema 的内容"+that.cinema)
+                // axios.post("http://localhost:39006/movie/ticket",{"cinema":that.cinema,"platform":that.platform
+                axios.post("http://47.112.115.39:39006/movie/ticket",{"cinema":that.cinema,"platform":that.platform
                     ,"price":that.price,"area":that.area,"movieName":that.movieName})
                     .then(function(response) {
-                        console.log(this);
+                        console.log("this 的内容"+this);
+                        console.log("response 的内容"+response);
                         that.ticketList = response.data.data
+                        console.log("response.data.data 的内容"+response.data.data);
+                        console.log("response的data内容 的内容"+response.data);
                         console.log(that.ticketList)
                     })
             }
