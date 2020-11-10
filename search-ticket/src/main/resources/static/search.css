@@ -19,7 +19,7 @@ em, i, u {font-style: normal;}
     -webkit-transition: auto;
     -o-transition: auto;
 }
-body {position: relative;min-width: 1200px;margin:0 auto;box-shadow: none;background: #fff;color: #000;}
+body {position: relative;margin:0 auto;box-shadow: none;background: #fff;color: #000;}
 body, button, input, select, textarea, div, nav, section {
     font: 14px "Source Han Sans ,STHeiti";
     -webkit-font-smoothing: antialiased;

@@ -10,76 +10,140 @@
     <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
 <!--    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>-->
     <script src="js/axios.min.js"></script>
+    <style>
+        #app{
+            width: 100vw;
+        }
+        .display-flex{
+            width: 100vw;
+            display: flex;
+        }
+        .display-flex li{
+            display: inline-block;
+        }
+
+        .wrap-search {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        .wrap-search li{
+            margin: 5px;
+            height: 5vh;
+            display: flex;
+            align-items: center;
+        }
+        .wrap-search li input{
+            width: 70%;
+            display: inline-block;
+            margin-left: 5px;
+            height: 100%;
+            text-indent: 12px
+        }
+        .wrap-search li label{
+            display: inline-block;
+            width: 15%;
+            text-align: right;
+        }
+        ._search{
+            text-align: center;
+        }
+        ._search  button{
+            width: 20%;
+            cursor: pointer;
+            width: 108px;
+            height: 6vh;
+            padding: 0;
+            background: 0 0;
+            background-color: #4e6ef2;
+            border-radius: 10px;
+            font-size: 15px;
+            color: #fff;
+            box-shadow: none;
+            font-weight: 400;
+            border: none;
+            outline: 0;
+        }
+        .header{
+
+        }
+        body{
+            min-width: 100%
+        }
+    </style>
 </head>
 
 <body>
-<div class="usteel-content w" id="app">
-    <div class="usteel-condition" id="usteel-condition">
-        <!-- 优钢网索引插件 -->
-        <div class="selector">
-            <div class="search-bottom display-flex">
-                <p>
-                    <span>影院</span>
+    <div id='app'>
+        <div class='header'>
+            <!-- 头部信息 -->
+        </div>
+        <!-- 搜索部分 -->
+        <div>
+            <ul class='wrap-search'>
+                <li>
+                    <label>影院</label>
                     <input placeholder="如：万达" v-model="cinema" @keyup.enter = "getTickte" type="text" size="500">
-                </p>
-
-                <p>
-                    <span>平台</span>
+                </li>
+                <li>
+                    <label>平台</label>
                     <input placeholder="如：淘票票" v-model="platform" @keyup.enter = "getTickte" type="text" size="500">
-                </p>
-
-                <p>
-                    <span>电影名称</span>
+                </li>
+                <li>
+                    <label>电影名称</label>
                     <input placeholder="如：金刚川" v-model="movieName" @keyup.enter = "getTickte" type="text" size="500">
-                </p>
-
-                <p>
-                    <span>地区</span>
+                </li>
+                <li>
+                    <label>地区</label>
                     <input placeholder="如：上海" type="text" v-model="area" @keyup.enter = "getTickte" size="500">
-                </p>
-                <p>
-                    <span>价格</span>
+                </li>
+                <li>
+                    <label>价格</label>
                     <input placeholder="如:30,表示票价在0-30元内" type="text" v-model="price" @keyup.enter = "getTickte" size="500">
+                </li>
+            </ul>
+            <div class='_search'>
+                <button @click="getTickte">搜索</button>
+            </div>
+        </div>
+        <div class="usteel-content w" id="app">
+            <!-- <div class="usteel-condition" id="usteel-condition"> -->
+                <!-- 优钢网索引插件 -->
+                <!-- <div class="selector"> -->
+                    
+                <!-- </div> -->
+            <!-- </div> -->
+            <div class="usteel-table">
+                <p class="title">
+                    
+                    <span style="color:red;font-size:14px;">注意：如果购买地址不能跳转的话，就复制标题，然后点击网页地址，到打开的网页上查询
+                        （一般网站，Ctrl+f，打开网站搜索框，然后把标题放到搜索框中）</span>
+                    <br>
+                    <span>如有疑问请添加客服微信：muyeafei_88，备份，网站的问题</span>
                 </p>
-
-                <p class="display-flex">
-                    <a class="_search" @click="getTickte">搜索</a>
-                </p>
+                <section>
+                    <span>全部结果&gt;</span>
+                    <p class="t_th">
+                        <span>标题</span>
+                        <span>价格</span>
+                        <span>数量</span>
+                        <span>描述</span>
+                        <span>网页地址</span>
+                        <span>购买地址</span>
+                    </p>
+                    <p class="t_tr" href="?id=11" v-for="(item,id) in ticketList" :key="id">
+                        <span class="w-1">{{ item.name }}</span>
+                        <span class="w-1">¥{{ item.price }}</span>
+                        <span class="w-1">{{ item.num }}</span>
+                        <span class="w-1">{{ item.description }}</span>
+                        <span><a class="w-1" target="_blank" :href="item.url">链接</a></span>
+                        <span><a class="w-1" target="_blank" :href="item.buyRule">链接</a></span>
+                    </p>
+                </section>
+                <center id="page" class="page"></center>
             </div>
         </div>
     </div>
-    <div class="usteel-table">
-        <p class="title">
-            <span>全部结果&gt;</span>
-            <span style="color:red;font-size:20px;">注意：如果购买地址不能跳转的话，就复制标题，然后点击网页地址，到打开的网页上查询
-                （一般网站，Ctrl+f，打开网站搜索框，然后把标题放到搜索框中）</span>
-            <br>
-            <span>如有疑问请添加客服微信：muyeafei_88，备份，网站的问题</span>
-        </p>
-        <section>
-            <p class="t_th">
-                <span>标题</span>
-                <span>价格</span>
-                <span>数量</span>
-                <span>描述</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                <a>网页地址</a>
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                <a>购买地址</a>
-            </p>
-            <p class="t_tr" href="?id=11" v-for="(item,id) in ticketList" :key="id">
-                <span class="w-1">{{ item.name }}</span>
-                <span class="w-1">¥{{ item.price }}</span>
-                <span class="w-1">{{ item.num }}</span>
-                <span class="w-1">{{ item.description }}</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                <a class="w-1" target="_blank" :href="item.url">网页地址</a>
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-
-                <a class="w-1" target="_blank" :href="item.buyRule">购买地址</a>
-            </p>
-        </section>
-        <center id="page" class="page"></center>
-    </div>
-</div>
 </body>
 
 <script type="text/javascript" src="js/jquery.min.js"></script>
