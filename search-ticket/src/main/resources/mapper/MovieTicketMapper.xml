@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.fei.search.ticket.mapper.MovieTicketMapper">
+
+    <select id="checkVip" resultType="java.lang.Long">
+        select id from vip where user_id = #{userId}
+    </select>
+    <select id="getUserId" resultType="java.lang.Long">
+        select id from user where name = #{userName} or phone = #{userName}
+    </select>
+</mapper>

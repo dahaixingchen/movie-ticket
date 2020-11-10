@@ -24,4 +24,7 @@ public class QueryConditionBo {
 
     //根据电影名称查询
     private String movieName;
+
+    //userid
+    private String userId;
 }

@@ -41,3 +41,20 @@ CREATE TABLE movie_ticket_port (
   unique(url_web),
   PRIMARY KEY (id)
 ) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COMMENT='post请求的方式直接解析HTML，所需信息表';
+
+create table pay_money(
+  id bigint(20) NOT NULL AUTO_INCREMENT COMMENT '主键 默认自动递增',
+  user_id varchar(32) NOT NULL COMMENT '标识用户的id，一般为手机号',
+  type varchar(32) NOT NULL COMMENT '支付的类型，如 weixin,zhifubao',
+  money double NOT NULL COMMENT '金额，以分为单位',
+  PRIMARY KEY (id)
+)comment '付费表';
+
+create table vip(
+  id bigint(20) NOT NULL AUTO_INCREMENT COMMENT '主键 默认自动递增',
+  user_id varchar(32) NOT NULL COMMENT '标识用户的id，一般为手机号',
+  type varchar(32) NOT NULL COMMENT 'vip的类型',
+  past_time timestamp NOT NULL COMMENT 'vip的过期时间',
+  click_num int not null comment '可用于点击查询的次数',
+  PRIMARY KEY (id)
+)comment '付费表';

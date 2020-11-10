@@ -150,6 +150,26 @@
 <script type="text/javascript" src="layui/layui.js" charset="utf-8"></script>
 <script type="text/javascript" src="usteel-search/search.js"></script>
 <script type="text/javascript">
+
+    function formatSearch(se){
+        if (typeof se !== "undefined") {
+            se = se.substr(1);  //从起始索引号提取字符串中指定数目的字符
+            var arr = se.split("&"),  //把字符串分割为字符串数组
+                obj = {},
+                newarr = [];
+            arr.forEach(function(v, i){ //数组遍历
+                console.log(v);
+                console.log(i);
+                newarr = v.split("=");
+                if(typeof obj[newarr[0]] === "undefined"){
+                    obj[newarr[0]] = newarr[1];
+                }
+            });
+            return obj;
+        };
+    }
+    var obj = formatSearch(window.location.search)
+
     var app = new Vue({
         el:'#app',
         data:{
@@ -158,6 +178,7 @@
             movieName:null,
             price:null,
             area:null,
+            userId:null,
             ticketList: [
                 {name:"",price:"",num:"",description:"",url:"",buyRule:null}
             ]
@@ -165,19 +186,34 @@
         methods:{
             getTickte:function () {
                 var that = this;
-                console.log("this.cinema 的内容"+this.cinema)
-                console.log("that.cinema 的内容"+that.cinema)
+                that.userId = that.formatSearch(window.location.search);
                 // axios.post("http://localhost:39006/movie/ticket",{"cinema":that.cinema,"platform":that.platform
                 axios.post("http://47.112.115.39:39006/movie/ticket",{"cinema":that.cinema,"platform":that.platform
-                    ,"price":that.price,"area":that.area,"movieName":that.movieName})
+                    ,"price":that.price,"area":that.area,"movieName":that.movieName,"userId":that.userId})
                     .then(function(response) {
-                        console.log("this 的内容"+this);
-                        console.log("response 的内容"+response);
-                        that.ticketList = response.data.data
-                        console.log("response.data.data 的内容"+response.data.data);
-                        console.log("response的data内容 的内容"+response.data);
-                        console.log(that.ticketList)
+                        if (response.data.status != 200) {
+                            alert(response.data.message)
+                        }else {
+                            that.ticketList = response.data.data
+                        }
                     })
+            },
+            formatSearch:function (se) {
+                if (typeof se !== "undefined") {
+                    se = se.substr(1);  //从起始索引号提取字符串中指定数目的字符
+                    var arr = se.split("&"),  //把字符串分割为字符串数组
+                        obj = {},
+                        newarr = [];
+                    arr.forEach(function(v, i){ //数组遍历
+                        console.log(v);
+                        console.log(i);
+                        newarr = v.split("=");
+                        if(typeof obj[newarr[0]] === "undefined"){
+                            obj[newarr[0]] = newarr[1];
+                        }
+                    });
+                    return obj.userid;
+                };
             }
         }
     })

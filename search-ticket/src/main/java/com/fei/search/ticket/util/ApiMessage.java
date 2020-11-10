@@ -10,7 +10,7 @@ public class ApiMessage<T> {
 
     public static final int SUCCESS = 200;
 
-    public static final int ERROR = 400;
+    public static final int ERROR = 401;
 
     private String timestamp;
 

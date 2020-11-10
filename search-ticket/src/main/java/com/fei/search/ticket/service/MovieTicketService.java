@@ -16,4 +16,6 @@ public interface MovieTicketService {
      * @date: 2020/10/1 22:23
      */
     List<TicketVo> disposeTicketResult(QueryConditionBo queryConditionBo);
+
+    Boolean checkVip(String userId);
 }
