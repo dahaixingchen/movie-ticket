@@ -63,7 +63,7 @@
                     })
             },
             open_win:function () {
-                var  str = './index.html?userid='+this.name
+                var  str = encodeURI('./index.html?userid='+this.name)
                 window.open(str,"_self")
             }
         }

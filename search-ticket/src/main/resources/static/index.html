@@ -187,8 +187,8 @@
             getTickte:function () {
                 var that = this;
                 that.userId = that.formatSearch(window.location.search);
-                // axios.post("http://localhost:39006/movie/ticket",{"cinema":that.cinema,"platform":that.platform
-                axios.post("http://47.112.115.39:39006/movie/ticket",{"cinema":that.cinema,"platform":that.platform
+                axios.post("http://localhost:39006/movie/ticket",{"cinema":that.cinema,"platform":that.platform
+                // axios.post("http://47.112.115.39:39006/movie/ticket",{"cinema":that.cinema,"platform":that.platform
                     ,"price":that.price,"area":that.area,"movieName":that.movieName,"userId":that.userId})
                     .then(function(response) {
                         if (response.data.status != 200) {
@@ -212,7 +212,7 @@
                             obj[newarr[0]] = newarr[1];
                         }
                     });
-                    return obj.userid;
+                    return decodeURI(obj.userid);
                 };
             }
         }
