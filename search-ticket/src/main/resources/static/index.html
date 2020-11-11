@@ -105,6 +105,9 @@
             <div class='_search'>
                 <button @click="getTickte">搜索</button>
             </div>
+            <div class='_search'>
+                <button @click="getTickte">搜索</button>
+            </div>
         </div>
         <div class="usteel-content w" id="app">
             <!-- <div class="usteel-condition" id="usteel-condition"> -->
@@ -194,6 +197,7 @@
                     .then(function(response) {
                         if (response.data.status != 200) {
                             alert(response.data.message)
+                            that.open_win()
                         }else {
                             that.ticketList = response.data.data
                         }
@@ -215,6 +219,10 @@
                     });
                     return decodeURI(obj.userid);
                 };
+            },
+            open_win:function () {
+                var  str = encodeURI('./login.html')
+                window.open(str,"_self")
             }
         }
     })
