@@ -41,7 +41,7 @@ public class MovieTicketController {
     public ApiMessage<TicketVo> ticket(@RequestBody QueryConditionBo queryConditionBo) {
         Boolean vip = movieTicketServiceImpl.checkVip(queryConditionBo.getUserId());
         if (!vip){
-            return ApiMessage.error("对不起，您不是VIP，请联系服务员小姐姐呦( 微信：muyeafei_88 )");
+            return ApiMessage.error("对不起，您不是VIP，请联系服务员小姐姐呦( 微信：muyeafei_88 或扫下方二维码)");
         }
         if ("".equals(queryConditionBo.getCinema())){
             queryConditionBo.setCinema(null);
